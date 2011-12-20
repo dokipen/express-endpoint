@@ -18,7 +18,8 @@ rcorsaro@gmail.com
 
 ## Warning
 
-This is liable to change in significant ways. I just started working on it. I'll remove this warning when I feel things are stable.
+This is liable to change in significant ways. I just started working on it.
+I'll remove this warning when I feel things are stable.
 
 ## Features
 
@@ -27,12 +28,15 @@ This is liable to change in significant ways. I just started working on it. I'll
 
 ## Howto
 
-Have a look at examples/test.js
+Have a look at examples/test.js. We are using express-endpoint on
+http://providers.embed.ly/, so you can check that out to see what it looks
+like.
 
 The gist of it is, there are two function available:
 
   * endpoint(opts) - Define and endpoint
-  * endpoint.catalog(opts) - Create a view of the endpoint catalog (all created endpoints)
+  * endpoint.catalog(opts) - Create a view of the endpoint catalog (all created
+    endpoints)
 
 ### Rules
 
@@ -44,13 +48,20 @@ The gist of it is, there are two function available:
  * max       - max occurances of parameter
  * default   - default value if none is specified. should be called first
   
-TODO: document all options for both calls, for now look at the example and index.js
+TODO: document all options for both calls, for now look at the example and
+index.js
   
 ## Ruminations
 
-I choose express since I wanted to use it's router and jade integration. It could be made to use some other router an rely solely on connect in the future, but until the need arises, this is how it will stay.
+I choose express since I wanted to use it's router and jade integration. It
+could be made to use some other router an rely solely on connect in the future,
+but until the need arises, this is how it will stay.
 
-I choose jade because it seems to be the most popular templating engine for node.js. I wanted something that most people would be able to write in so they could easily override the doc templates.
+I choose jade because it seems to be the most popular templating engine for
+node.js. I wanted something that most people would be able to write in so they
+could easily override the doc templates.
 
-It's not simple middleware, but it could be. Since I'm using express' router, app is passed to endpoint() and endpoint.catalog() where it registers itself with the router.
+It's not simple middleware, but it could be. Since I'm using express' router,
+app is passed to endpoint() and endpoint.catalog() where it registers itself
+with the router.
 

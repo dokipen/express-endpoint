@@ -14,11 +14,11 @@ or
 
 ## Human contact
 
-    rcorsaro@gmail.com
+rcorsaro@gmail.com
 
 ## Warning
 
-    This is liable to change in significant ways. I just started working on it. I'll remove this warning when I feel things are stable.
+This is liable to change in significant ways. I just started working on it. I'll remove this warning when I feel things are stable.
 
 ## Features
 

@@ -1,0 +1,18 @@
+div#header
+  div.title 
+  div.description
+    p
+
+include includes/endpoint
+
+div#body
+  div.errors
+    - errors.forEach(function(error) {
+      div.error
+        p #{error}
+    - })
+  div.doc
+    ul.endpoints
+      - endpoints.forEach(function(endpoint) {
+        mixin endpoint(endpoint)
+      - })

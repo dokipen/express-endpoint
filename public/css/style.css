@@ -1,0 +1,53 @@
+div.endpoint {
+  font-family: "Droid Sans", "Trebuchet MS", Trebuchet, Helvetica, sans-serif;
+  margin: 20px;
+  padding: 20px 10px 20px 10px;
+  width: 800px;
+  background: #ffffaa;
+  border: 1px solid #333333;
+  border-radius: 3px;
+}
+
+div.endpoint div.section {
+  padding: 0px 0px 0px 20px;
+}
+div.endpoint div.section div.section_title {
+  font-weight: bold;
+  font-size: 1em;
+}
+
+div.endpoint div.section div.section_text {
+  font-size: .8em;
+  padding: 10px 0px 10px 20px;
+}
+
+div.endpoint div.params dl {
+  padding: 0px;
+  margin: -10px 0 0 0;
+  font-size: 0.9em;
+  width: 600px;
+}
+
+div.endpoint div.params dl dt {
+  position: relative;
+  left: 0;
+  top: 1.1em;
+  width: 9em;
+  font-weight: bold;
+}
+
+div.endpoint div.params dl dd {
+  border-left: 1px solid #000;
+  margin: 0 0 0 9em;
+  padding: 0 0 .2em .5em;
+  min-height: 1em;
+}
+
+div.errors div.error {
+  border: 1px solid red;
+  background: pink;
+  margin: 20px;
+  padding: 10px;
+  border-radius: 3px;
+  width: 800px;
+}

@@ -72,7 +72,6 @@ var echo_opts =
   }
 
 app.use('/static', express.static(__dirname + '/../public'))
-app.use(express.favicon(__dirname + '/../public/favicon.ico'))
 app.use(express.logger())
 app.use(express.errorHandler())
 endpoint(test_opts)

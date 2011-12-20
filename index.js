@@ -4,8 +4,8 @@
 var Hash = require('hashish')
   , urlparse = require('urlparse.js').parse
   , fs = require('fs')
-  , connect = require('connect')
   , path = require('path')
+  , express = require('express')
 
 var DEFAULT_VALIDATION_RULES =
   { number: function(name) {
@@ -188,6 +188,9 @@ exports = module.exports = function(opts) {
   }
   config.rules = Hash(rules).update(config.rules).end
 
+  config.app.set('views', __dirname + '/views')
+  config.app.use('/static/endpoint/', express.static(__dirname + '/public'))
+
   var normalized_param = function(req, name, def) {
     var val = req.param(name, def)
     if (typeof(val) == 'undefined') {
@@ -262,7 +265,6 @@ exports.catalog = function(opts) {
   ).update(opts||{}).end
 
   config.app.get(config.path, function(req, res, next) {
-    console.log(ENDPOINTS)
     res.render(config.doc_view, {errors: [], endpoints: ENDPOINTS, Hash: Hash})
   })
 }

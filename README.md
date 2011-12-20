@@ -33,6 +33,16 @@ The gist of it is, there are two function available:
 
   * endpoint(opts) - Define and endpoint
   * endpoint.catalog(opts) - Create a view of the endpoint catalog (all created endpoints)
+
+### Rules
+
+ * required  - ensure parameter is specified
+ * url       - ensure valid url
+ * number    - convert to number
+ * regex     - match against regex
+ * bool      - convert to boolean ('1', '', or 'true' is true)
+ * max       - max occurances of parameter
+ * default   - default value if none is specified. should be called first
   
 TODO: document all options for both calls, for now look at the example and index.js
   

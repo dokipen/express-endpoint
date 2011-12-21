@@ -6,112 +6,7 @@ var Hash = require('hashish')
   , fs = require('fs')
   , path = require('path')
   , express = require('express')
-
-var DEFAULT_VALIDATION_RULES =
-  { number: function(name) {
-      return function(vals) {
-        return vals.map(function(val) {
-          if (val.match(/[^0-9]/)) {
-            throw "Invalid number '"+val+"'"
-          } else {
-            return Number(val)
-          }
-        })
-      }
-    }
-  , time: function(name) {
-      return function(vals) {
-        return vals.map(function(val) {
-          return val
-        })
-      }
-    }
-  , bool: function(name) {
-      return function(vals) {
-        if (vals.length > 1) {
-          throw "the boolean parameter only excepts one value"
-        }
-        var val = vals.length == 1 ? vals[0] : null
-          , rval = [false]
-
-        if (val == true ||
-                   val == '1' ||
-                   val == '' ||
-                   val == 1 ||
-                   String(val).toLowerCase() == 'true') {
-          return [true]
-        } else {
-          return [false]
-        }
-      }
-    }
-  , regex: function(name, param) {
-      var regex = new RegExp(param)
-
-      return function(vals) {
-        var rvals = []
-        return vals.map(function(val) {
-          if (val && val.match(regex)) {
-            return val
-          } else {
-            throw "'"+val+"' doesn't match the regex '"+regex+"'"
-          }
-        })
-      }
-    }
-  , required: function(name) {
-      return function(vals) {
-        if (vals.filter(function(i) {return i != ''}).length == 0) { 
-          throw "Required parameter is not defined"
-        } else {
-          return vals
-        }
-      }
-    }
-  , url: function(name) {
-      var rvals = []
-      return function(vals) {
-        return vals.map(function(val) {
-          var purl = urlparse(val)
-
-          if (purl && purl.hostname) {
-            return purl.href
-          } else {
-            throw "'"+val+"' isn't a valid URL"
-          }
-        })
-      }
-    }
-  , max: function(name, param) {
-      var occurances = Number(param)
-
-      return function(vals) {
-        if (vals.length > occurances) {
-          throw "The parameter can only be specified "+occurances+" times"
-        } else {
-          return vals
-        }
-      }
-    }
-  , once: function(name) {
-      return function(vals) {
-        if (vals.length > 1) {
-          throw "The parameter can only be specified once"
-        } else {
-          return vals
-        }
-      }
-    }
-  , 'default': function(name, param) {
-      return function(vals) {
-        if (vals.length == 0) {
-          return [param]
-        } else {
-          return vals
-        }
-      }
-    }
-  }
+  , default_rules = require('./lib/rules')
 
 // global registry
 var ENDPOINTS = []
@@ -192,10 +87,32 @@ exports = module.exports = function(opts) {
   ).update(opts || {}).end
 
   var rules = {}
-  for (var r in DEFAULT_VALIDATION_RULES) {
-    rules[r] = DEFAULT_VALIDATION_RULES[r]
+  for (var r in default_rules) {
+    rules[r] = default_rules[r]
   }
   config.rules = Hash(rules).update(config.rules).end
+
+  var parse_rule = function(rule_str) {
+    var regex = /^([^(]+)(\((.*)\))?$/
+      , rule_group = regex.exec(rule_str).slice(1)
+
+    return (
+      { name: rule_group.shift()
+      , arg: rule_group[1]
+      }
+    )
+  }
+
+  // verify that rules exist
+  config.parameters.forEach(function verify(param_def) {
+    param_def.rules.forEach(function rule(rule_str) {
+      var rule = parse_rule(rule_str)
+
+      if (!config.rules[rule.name]) {
+        throw "Rule [" + rule.name + "] does not exist"
+      }
+    })
+  })
 
   config.app.set('views', __dirname + '/views')
   config.app.use('/static/endpoint/', express.static(__dirname + '/public'))
@@ -210,21 +127,19 @@ exports = module.exports = function(opts) {
     return val
   }
 
+
   var parse_params = function(req) {
     var parsed = {}
-      , regex = /^([^(]+)(\((.*)\))?$/
 
     config.parameters.forEach(function parse_param(param_def) {
       var normal_param = normalized_param(req, param_def.name)
       parsed[param_def.name] = normal_param
-      param_def.rules.forEach(function(rule) {
-        var rule_group = regex.exec(rule).slice(1)
-          , rule_name = rule_group.shift()
-          , rule_args = [param_def.name, rule_group[1]]
+      param_def.rules.forEach(function(rule_str) {
+        var rule = parse_rule(rule_str)
 
         try {
-          var rule = config.rules[rule_name].apply(null, rule_args)
-          var nvals = rule(parsed[param_def.name], normal_param)
+          var rule_fn = config.rules[rule.name](param_def.name, rule.arg)
+          var nvals = rule_fn(parsed[param_def.name], normal_param)
           //console.log(rule_name + " changing", parsed[param_def.name], " to ", nvals)
           parsed[param_def.name] = nvals
         } catch(e) {

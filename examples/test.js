@@ -11,28 +11,32 @@ var test_opts =
   , example: '/my/endpoint?firstname=bob&lastname=corsaro&age=34'
   , parameters:
     [ { name: 'firstname'
-      , rules: ['regex(^[^0-9_]+$)', 'required', 'max(1)']
+      , rules: ['regex(^[^0-9_]+$)', 'required', 'once']
       , description: 'The first name.'
       }
     , { name: 'lastname'
-      , rules: ['regex(^[^0-9_]+$)', 'required', 'max(1)']
+      , rules: ['regex(^[^0-9_]+$)', 'required', 'once']
       , description: 'The last name.'
       }
     , { name: 'homepage'
-      , rules: ['url', 'max(1)']
+      , rules: ['url', 'max(3)']
       , description: 'The home page.'
       }
     , { name: 'age'
-      , rules: ['number', 'required', 'gte18', 'max(1)']
+      , rules: ['number', 'required', 'gte18', 'once']
       , description: 'The age. Must be at least 18.'
       }
     , { name: 'favorite-color'
-      , rules: ['default(blue)', 'regex(^(blue|red|yellow|black|white|green)$)', 'max(1)']
+      , rules: ['default(blue)', 'regex(^(blue|red|yellow|black|white|green)$)', 'once']
       , descripton: 'Your favorite color'
       }
     , { name: 'crazy'
-      , rules: ['default(false)', 'bool', 'max(1)']
+      , rules: ['default(false)', 'bool']
       , description: 'Are you crazy?'
+      }
+    , { name: 'callback'
+      , rules: ['callback']
+      , description: 'JSONP Callback'
       }
     ]
   , rules:
@@ -76,6 +80,6 @@ app.use(express.logger())
 app.use(express.errorHandler())
 endpoint(test_opts)
 endpoint(echo_opts)
-endpoint.catalog({app: app})
+endpoint.catalog({app: app, path: '/'})
 
 app.listen(3000)

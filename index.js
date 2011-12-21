@@ -1,6 +1,3 @@
-/**
- * Mirage - A simple ssl image proxy in node.
- */
 var Hash = require('hashish')
   , urlparse = require('urlparse.js').parse
   , fs = require('fs')

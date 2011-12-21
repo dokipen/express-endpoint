@@ -9,7 +9,7 @@ div#body
   div.errors
     - errors.forEach(function(error) {
       div.error
-        p #{error}
+        p Error on paramater [#{error.parameter_name}]: #{error.message}
     - })
   div.doc
     ul.endpoints

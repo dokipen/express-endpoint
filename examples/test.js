@@ -31,7 +31,7 @@ var test_opts =
       , descripton: 'Your favorite color'
       }
     , { name: 'crazy'
-      , rules: ['default(false)', 'bool']
+      , rules: ['default(false)', 'boolean']
       , description: 'Are you crazy?'
       }
     , { name: 'callback'

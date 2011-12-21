@@ -143,8 +143,8 @@ exports = module.exports = function(opts) {
           //console.log(rule_name + " changing", parsed[param_def.name], " to ", nvals)
           parsed[param_def.name] = nvals
         } catch(e) {
-          if (e.stack) { console.log(e.stack) }
-          throw "Error on parameter '"+param_def.name+"': "+e
+          e.parameter_name = param_def.name
+          throw e
         }
       })
     })
@@ -157,11 +157,6 @@ exports = module.exports = function(opts) {
       return config.handler(req, res, next)
     } catch(e) {
       // optionally, display docs and error message
-      if (e.stack) {
-        console.error(e.stack)
-      } else {
-        console.error(e)
-      }
       if (config.doc_on_error) {
         res.render(config.doc_view, {errors: [e], endpoints: [config], Hash: Hash})
       } else {

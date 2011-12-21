@@ -42,14 +42,13 @@ var test_opts =
   , rules:
     { gte18: function(name) {
         return function(vals) {
-          var rvals = vals.map(function(val) {
+          return vals.map(function(val) {
             if (val < 18) {
-              throw name+" must be at least 18"
+              throw new Error("["+val+"] is less then 18")
             } else {
               return val
             }
           })
-          return rvals
         }
       }
     }

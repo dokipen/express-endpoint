@@ -10,15 +10,20 @@ var Hash = require('hashish')
 var DEFAULT_VALIDATION_RULES =
   { number: function(name) {
       return function(vals) {
-        rvals = []
-        vals.forEach(function(val) {
+        return vals.map(function(val) {
           if (val.match(/[^0-9]/)) {
             throw "Invalid number '"+val+"'"
           } else {
-            rvals.push(Number(val))
-          } 
+            return Number(val)
+          }
         })
-        return rvals
+      }
+    }
+  , time: function(name) {
+      return function(vals) {
+        return vals.map(function(val) {
+          return val
+        })
       }
     }
   , bool: function(name) {
@@ -45,17 +50,13 @@ var DEFAULT_VALIDATION_RULES =
 
       return function(vals) {
         var rvals = []
-        vals.forEach(function(val) {
-          var new_val = null
-
+        return vals.map(function(val) {
           if (val && val.match(regex)) {
-            new_val = val
+            return val
           } else {
             throw "'"+val+"' doesn't match the regex '"+regex+"'"
           }
-          rvals.push(new_val)
         })
-        return rvals
       }
     }
   , required: function(name) {
@@ -70,16 +71,15 @@ var DEFAULT_VALIDATION_RULES =
   , url: function(name) {
       var rvals = []
       return function(vals) {
-        vals.forEach(function(val) {
+        return vals.map(function(val) {
           var purl = urlparse(val)
 
           if (purl && purl.hostname) {
-            rvals.push(purl.href)
+            return purl.href
           } else {
             throw "'"+val+"' isn't a valid URL"
           }
         })
-        return rvals
       }
     }
   , max: function(name, param) {
@@ -87,7 +87,16 @@ var DEFAULT_VALIDATION_RULES =
 
       return function(vals) {
         if (vals.length > occurances) {
-          throw "The parameter can only be specified "+occurances+" time(s)"
+          throw "The parameter can only be specified "+occurances+" times"
+        } else {
+          return vals
+        }
+      }
+    }
+  , once: function(name) {
+      return function(vals) {
+        if (vals.length > 1) {
+          throw "The parameter can only be specified once"
         } else {
           return vals
         }

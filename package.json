@@ -1,8 +1,8 @@
 { "name": "express-endpoint"
 , "version": "0.0.3"
 , "description": "Parse, validate, document and molest endpoint parameters."
-, "homepage": "https://github.com/dokipen/connect-endpoint"
-, "keywords": ["url", "parse", "validation", "connect", "express", "doc"]
+, "homepage": "https://github.com/dokipen/express-endpoint"
+, "keywords": ["url", "parse", "validation", "connect", "express", "doc", "api"]
 , "author":
   { "name": "Bob Corsaro"
   , "email": "rcorsaro@gmail.com"
@@ -10,9 +10,9 @@
   }
 , "repository":
   { "type": "git"
-  , "url": "git://github.com/dokipen/connect-endpoint"
+  , "url": "git://github.com/dokipen/express-endpoint"
   }
-, "bugs": { "url": "http://github.com/dokipen/connect-endpoint/issues/" }
+, "bugs": { "url": "http://github.com/dokipen/express-endpoint/issues/" }
 , "directories": { "lib": "./lib" }
 , "dependencies":
   { "hashish": "0.0.4"

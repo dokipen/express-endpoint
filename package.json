@@ -1,5 +1,5 @@
 { "name": "express-endpoint"
-, "version": "0.0.2"
+, "version": "0.0.3"
 , "description": "Parse, validate, document and molest endpoint parameters."
 , "homepage": "https://github.com/dokipen/connect-endpoint"
 , "keywords": ["url", "parse", "validation", "connect", "express", "doc"]

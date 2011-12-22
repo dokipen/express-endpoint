@@ -59,6 +59,7 @@ parameter that is an object containing the following properties.
   * doc_on_error - If specified, we will display the endpoint documentation
                    and en error message on a validation error.
   * doc_view     - The name of the doc template.
+  * doc_path     - A path to the documenation for this endpoint.
 
 ## Catalog
 

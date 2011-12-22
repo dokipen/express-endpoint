@@ -81,4 +81,4 @@ endpoint(test_opts)
 endpoint(echo_opts)
 endpoint.catalog({app: app, path: '/'})
 
-app.listen(3000)
+app.listen(process.env.PORT || 3000)

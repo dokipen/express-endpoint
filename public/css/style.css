@@ -4,7 +4,7 @@ body {
 div.doc {
   margin: 0px auto 0px auto;
   padding: 0px;
-  width: 600px;
+  width: 622px;
 }
 ul.enpoints {
   padding: 0px;
@@ -19,6 +19,7 @@ div.endpoint {
   border-radius: 3px;
   box-shadow: 0 1px 5px rgba(0, 0, 0, 0.15);
   color: #444444;
+  width: 600px;
 }
 
 div.endpoint a:visited, div.endpoint a:link, div.endpoint a:hover, div.endpoint a:active {
@@ -46,7 +47,7 @@ div.endpoint div.params dl {
   padding: 0px;
   margin: -10px 0 0 0;
   font-size: 0.9em;
-  width: 600px;
+  width: 500px;
 }
 
 div.endpoint div.params dl dt {
@@ -67,11 +68,12 @@ div.endpoint div.params dl dd {
 
 div.errors div.error {
   margin: 20px auto 0px auto;
-  width: 600px;
+  width: 580px;
   border: 1px solid #c5c5c5;
   box-shadow: 0 1px 5px rgba(0, 0, 0, 0.15);
-  background: pink;
-  padding: 10px;
+  background: pink url(../images/error.png) no-repeat;
+  background-position: 7px 8px;
+  padding: 10px 10px 10px 30px;
   border-radius: 3px;
   color: #444444;
 }

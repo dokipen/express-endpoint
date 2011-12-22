@@ -1,12 +1,27 @@
+body {
+  background: transparent url(../images/bg-main.png) repeat;
+}
+div.doc {
+  margin: 0px auto 0px auto;
+  width: 600px;
+}
 div.endpoint {
   font-family: "Droid Sans", "Trebuchet MS", Trebuchet, Helvetica, sans-serif;
-  margin: 20px;
   padding: 20px 10px 20px 10px;
-  width: 800px;
-  background: #ffffaa;
-  border: 1px solid #333333;
+  margin: 20px;
+  background: #eeeeee; /*transparent url(../images/bg.png) repeat-x top left;*/
+  border: 1px solid #c5c5c5;
   border-radius: 3px;
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.15);
+  color: #444444;
 }
+
+div.endpoint a:visited, div.endpoint a:link, div.endpoint a:hover, div.endpoint a:active {
+  color: #4444bb;
+  text-decoration: none;
+  font-weight: bold;
+}
+
 
 div.endpoint div.section {
   padding: 0px 0px 0px 20px;
@@ -14,6 +29,7 @@ div.endpoint div.section {
 div.endpoint div.section div.section_title {
   font-weight: bold;
   font-size: 1em;
+  color: #888888;
 }
 
 div.endpoint div.section div.section_text {
@@ -34,6 +50,7 @@ div.endpoint div.params dl dt {
   top: 1.1em;
   width: 9em;
   font-weight: bold;
+  color: #000000;
 }
 
 div.endpoint div.params dl dd {

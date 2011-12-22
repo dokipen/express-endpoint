@@ -8,27 +8,27 @@ var test_opts =
   { path: '/my/endpoint'
   , doc_on_error: true
   , description: 'My endpoint.'
-  , example: '/my/endpoint?firstname=bob&lastname=corsaro&age=34'
+  , example: '/my/endpoint?firstname=bob&lastname=corsaro&age=34&homepage=doki-pen.org/~doki_pen&homepage=bit.ly/rcorsaro'
   , parameters:
     [ { name: 'firstname'
       , rules: ['regex(^[^0-9_]+$)', 'required', 'once']
-      , description: 'The first name.'
+      , description: 'The first name. (required)'
       }
     , { name: 'lastname'
       , rules: ['regex(^[^0-9_]+$)', 'required', 'once']
-      , description: 'The last name.'
+      , description: 'The last name. (required)'
       }
     , { name: 'homepage'
       , rules: ['url', 'max(3)']
-      , description: 'The home page.'
+      , description: 'The home page. You can specify up to 3.'
       }
     , { name: 'age'
       , rules: ['number', 'required', 'gte18', 'once']
-      , description: 'The age. Must be at least 18.'
+      , description: 'The age. Must be at least 18. (required)'
       }
     , { name: 'favorite-color'
       , rules: ['default(blue)', 'regex(^(blue|red|yellow|black|white|green)$)', 'once']
-      , descripton: 'Your favorite color'
+      , description: 'Your favorite color.'
       }
     , { name: 'crazy'
       , rules: ['default(false)', 'boolean']
@@ -36,7 +36,7 @@ var test_opts =
       }
     , { name: 'callback'
       , rules: ['callback']
-      , description: 'JSONP Callback'
+      , description: 'JSONP Callback.'
       }
     ]
   , rules:
@@ -65,7 +65,7 @@ var echo_opts =
   , parameters:
     [ { name: 'msg'
       , rules: ['required', 'max(1)']
-      , description: 'Message that should be echoed'
+      , description: 'Message that should be echoed. (required)'
       }
     ]
   , handler: function(req, res) {

@@ -42,6 +42,7 @@ parameter that is an object containing the following properties.
   * path         - The endpoint path as used by the express router. See
                    http://expressjs.com/guide.html#routing for details.
                    (required)
+  * aliases      - An array of path aliases for the endpoint.
   * description  - A human readable description of the endpoint. (required)
   * example      - An example URL for the endpoint.
   * parameters   - The set of parameters the endpoint accepts. See below

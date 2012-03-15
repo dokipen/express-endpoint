@@ -2,7 +2,6 @@ var app = require('express').createServer()
   , urlparse = require('urlparse.js').parse
   , endpoint = require('../index')
   , express = require('express')
-//  , endpoint = require('connect-endpoint')
 
 var test_opts =
   { path: '/my/endpoint'
@@ -41,14 +40,19 @@ var test_opts =
     ]
   , rules:
     { gte18: function(name) {
-        return function(vals) {
-          return vals.map(function(val) {
-            if (val < 18) {
-              throw new Error("["+val+"] is less then 18")
-            } else {
-              return val
-            }
-          })
+        return function(vals, cb) {
+          try {
+            var mapped = vals.map(function(val) {
+              if (val < 18) {
+                throw new Error("["+val+"] is less then 18")
+              } else {
+                return val
+              }
+            })
+            cb(null, mapped)
+          } catch(e) {
+            cb(e)
+          }
         }
       }
     }
@@ -74,7 +78,6 @@ var echo_opts =
   , app: app
   }
 
-app.use('/static', express.static(__dirname + '/../public'))
 app.use(express.logger())
 app.use(express.errorHandler())
 endpoint(test_opts)

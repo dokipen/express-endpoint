@@ -1,7 +1,6 @@
 var rules = require('../lib/rules')
   , should = require('should')
   , step = require('step')
-  , assert = require('assert')
 
 describe('rules', function() {
   describe('callback', function() {
@@ -54,7 +53,7 @@ describe('rules', function() {
           ['zonclick', '$$', 'a9879385472945_234aASDFasdf'].forEach(function(name) {
             var p = self.parallel()
             fn([name], function(err, vals) {
-              assert(err == null)
+              should.not.exist(err)
               vals.should.eql([name])
               p()
             })
@@ -94,7 +93,7 @@ describe('rules', function() {
     })
     it('should convert legal strings to numbers', function(done) {
       fn(['1', '12', '-234', '-24.234', '0.4'], function(err, vals) {
-        assert(err == null)
+        should.not.exist(err)
         vals.should.eql([1, 12, -234, -24.234, 0.4])
         done()
       })
@@ -119,7 +118,7 @@ describe('rules', function() {
           [str_ms, str_s].forEach(function(val) {
             var p = self.parallel()
             fn([val], function(err, vals) {
-              assert(err == null)
+              should.not.exist(err)
               vals.should.eql([d])
               p()
             })
@@ -140,7 +139,7 @@ describe('rules', function() {
           ['1', '', 'true'].forEach(function(val) {
             var p = self.parallel()
             fn([val], function(err, val) {
-              assert(err == null)
+              should.not.exist(err)
               val.should.eql(true)
               p()
             })
@@ -162,7 +161,7 @@ describe('rules', function() {
           ['2', 'truer'].forEach(function(val) {
             var p = self.parallel()
             fn(val, function(err, val) {
-              assert(err == null)
+              should.not.exist(err)
               val.should.eql(false)
               p()
             })
@@ -181,7 +180,7 @@ describe('rules', function() {
           ['a', 'aa', 'aaa'].forEach(function(val) {
             var p = self.parallel()
             fn([val], function(err, vals) {
-              assert(err == null)
+              should.not.exist(err)
               vals.should.eql([val])
               p()
             })
@@ -206,7 +205,7 @@ describe('rules', function() {
         , 'doki-pen.org/~doki_pen'
         ]
       , function(err, vals) {
-          assert(err == null)
+          should.not.exist(err)
           vals.map(function(i) {return i.href}).should.eql(
             [ 'http://www.google.com/'
             , 'https://yahoo.com/a/b'
@@ -228,7 +227,7 @@ describe('rules', function() {
     var fn = rules.required('required')
     it("should accept specified params", function(done) {
       fn([1], function(err, vals) {
-        assert(err == null)
+        should.not.exist(err)
         vals.should.eql([1])
         done()
       })
@@ -249,7 +248,7 @@ describe('rules', function() {
           [[1,2,3], [1,2], [1], []].forEach(function(input) {
             var p = self.parallel()
             fn(input, function(err, vals) {
-              assert(err == null)
+              should.not.exist(err)
               vals.should.eql(input)
               p()
             })
@@ -270,7 +269,7 @@ describe('rules', function() {
     var fn = rules.once('once')
     it("should accept specified param", function(done) {
       fn(['1'], function(err, vals) {
-        assert(err == null)
+        should.not.exist(err)
         vals.should.eql('1')
         done()
       })
@@ -286,14 +285,14 @@ describe('rules', function() {
     var fn = rules['default']('default', '2')
     it("should accept specified param", function(done) {
       fn(['1'], function(err, vals) {
-        assert(err == null)
+        should.not.exist(err)
         vals.should.eql(['1'])
         done()
       })
     })
     it("should set param if not present", function(done) {
       fn([], function(err, vals) {
-        assert(err == null)
+        should.not.exist(err)
         vals.should.eql(['2'])
         done()
       })

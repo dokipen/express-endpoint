@@ -57,7 +57,7 @@ var test_opts =
       }
     }
   , handler: function(req, res) {
-      res.send('<pre>'+JSON.stringify(req.endpoint_params, null, 2)+"</pre>")
+      res.render_endpoint_data(req.endpoint_params)
     }
   , app: app
   }

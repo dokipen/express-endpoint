@@ -28,13 +28,13 @@ I'll remove this warning when I feel things are stable.
 ## Features
 
   * Flexible, pluggable parameter validation and munging.
-  * Free HTML documentation of endpoints.
+  * HTML documentation of endpoints.
+  * Pretty print results to text/html clients
 
 ### TODO
 
   * Error codes
   * Automatically add rule doc to parameter doc
-  * Ack Accept header, respond appropriately
   * Ack request methods
   * Automatically handle jsonp
   * Authentication

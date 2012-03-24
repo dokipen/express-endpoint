@@ -1,18 +1,21 @@
-div#header
-  div.title 
-  div.description
-    p
+extends layout
 
-include includes/endpoint
+block content
+    div#header
+      div.title 
+      div.description
+        p
 
-div#body
-  div.errors
-    - errors.forEach(function(error) {
-      div.error
-        p Error on paramater [#{error.parameter_name}]: #{error.message}
-    - })
-  div.doc
-    ul.endpoints
-      - endpoints.forEach(function(endpoint) {
-        mixin endpoint(endpoint)
-      - })
+    include includes/endpoint
+
+    div#body
+      div.errors
+        - errors.forEach(function(error) {
+          div.error
+            p Error on paramater [#{error.parameter_name}]: #{error.message}
+        - })
+      div.doc
+        ul.endpoints
+          - endpoints.forEach(function(endpoint) {
+            mixin endpoint(endpoint)
+          - })

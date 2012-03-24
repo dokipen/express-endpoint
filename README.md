@@ -33,10 +33,8 @@ I'll remove this warning when I feel things are stable.
 
 ### TODO
 
-  * Error codes
   * Automatically add rule doc to parameter doc
   * Ack request methods
-  * Automatically handle jsonp
   * Authentication
 
 ## Endpoint

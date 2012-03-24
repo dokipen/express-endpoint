@@ -1,4 +1,4 @@
-var app = require('express').createServer()
+var app = require('express')()
   , urlparse = require('urlparse.js').parse
   , endpoint = require('../index')
   , express = require('express')

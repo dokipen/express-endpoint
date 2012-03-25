@@ -75,17 +75,17 @@ div.errors div.error {
   box-shadow: 0 1px 5px rgba(0, 0, 0, 0.15);
   background: pink url(../images/error.png) no-repeat;
   background-position: 1em center;
-  padding: 10px 10px 32px 5em;
+  padding: 10px 10px 36px 5em;
   border-radius: 3px;
   color: #c00;
   line-height: 25px;
-  min-height: 50px;
+  min-height: 30px;
   vertical-align: middle;
 }
 
 div.errors div.error div {
   position: relative;
-  top: 13px;
+  top: 16px;
 }
 
 div#response {

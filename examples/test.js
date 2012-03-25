@@ -71,8 +71,8 @@ var echoOpts =
     }
   }
 
-app.use(express.logger())
-app.use(express.favicon())
+//app.use(express.logger())
+//app.use(express.favicon())
 app.use(endpoint.middleware.static())
 
 app.get(testOpts.path,

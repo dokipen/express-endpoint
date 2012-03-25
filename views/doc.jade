@@ -1,21 +1,60 @@
-extends layout
-
-block content
+!!! 5
+html
+  head
+    title Embedly Provider Stats API
+    - config.stylesheets.forEach(function(css) {
+        link(rel="stylesheet", href="#{css}", type="text/css", media="screen")
+    - })
+  body
     div#header
-      div.title 
+      div.title
       div.description
         p
 
-    include includes/endpoint
-
     div#body
       div.errors
-        - errors.forEach(function(error) {
+        - if (errors.length > 0) {
           div.error
-            p Error on paramater [#{error.parameter_name}]: #{error.message}
-        - })
+            - errors.forEach(function(error) {
+              div
+                - if (error.parameterName) {
+                    p Error on paramater [#{error.parameterName}]: #{error.message}
+                - } else {
+                    p An application error occurred: #{error.message}
+                    pre #{error.stack}
+                - }
+            - })
+        - }
       div.doc
         ul.endpoints
           - endpoints.forEach(function(endpoint) {
-            mixin endpoint(endpoint)
+            div.endpoint
+              div.section.path
+                div.section_title
+                  p Path
+                div.section_text
+                  p #{endpoint.path}
+
+              div.section.description
+                div.section_title
+                  p Description
+                div.section_text
+                  p #{endpoint.description}
+
+              div.section.params
+                div.section_title
+                  p Parameters
+                div.section_text
+                  dl.params
+                    - Hash(endpoint.parameters).forEach(function(parameter, name) {
+                      dt :#{parameter.name}
+                      dd #{parameter.description}
+                    - })
+
+              div.section.example
+                div.section_title
+                  p Example
+                div.section_text
+                  p
+                    a(href='#{endpoint.example}') #{endpoint.example}
           - })

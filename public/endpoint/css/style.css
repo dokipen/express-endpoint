@@ -67,15 +67,25 @@ div.endpoint div.params dl dd {
 }
 
 div.errors div.error {
+  font-family: "Droid Sans", "Trebuchet MS", Trebuchet, Helvetica, sans-serif;
+  font-size: 15px;
   margin: 20px auto 0px auto;
-  width: 580px;
+  width: 535px;
   border: 1px solid #c5c5c5;
   box-shadow: 0 1px 5px rgba(0, 0, 0, 0.15);
   background: pink url(../images/error.png) no-repeat;
-  background-position: 7px 8px;
-  padding: 10px 10px 10px 30px;
+  background-position: 1em center;
+  padding: 10px 10px 32px 5em;
   border-radius: 3px;
-  color: #444444;
+  color: #c00;
+  line-height: 25px;
+  min-height: 50px;
+  vertical-align: middle;
+}
+
+div.errors div.error div {
+  position: relative;
+  top: 13px;
 }
 
 div#response {

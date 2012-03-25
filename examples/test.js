@@ -3,9 +3,8 @@ var app = require('express')()
   , endpoint = require('../index')
   , express = require('express')
 
-var test_opts =
+var testOpts =
   { path: '/my/endpoint'
-  , doc_on_error: true
   , description: 'My endpoint.'
   , example: '/my/endpoint?firstname=bob&lastname=corsaro&age=34&homepage=doki-pen.org/~doki_pen&homepage=bit.ly/rcorsaro'
   , parameters:
@@ -33,10 +32,6 @@ var test_opts =
       , rules: ['default(false)', 'boolean']
       , description: 'Are you crazy?'
       }
-    , { name: 'callback'
-      , rules: ['callback']
-      , description: 'JSONP Callback.'
-      }
     ]
   , rules:
     { gte18: function(name) {
@@ -57,12 +52,11 @@ var test_opts =
       }
     }
   , handler: function(req, res) {
-      res.render_endpoint_data(req.endpoint_params)
+      res.renderEndpointData(req.endpointParams)
     }
-  , app: app
   }
 
-var echo_opts =
+var echoOpts =
   { path: '/echo'
   , description: 'Echo message'
   , example: '/echo?msg=Hello+World'
@@ -73,15 +67,25 @@ var echo_opts =
       }
     ]
   , handler: function(req, res) {
-      res.send('<pre>'+req.endpoint_params.msg[0]+'<\pre>')
+      res.send('<pre>'+req.endpointParams.msg[0]+'<\pre>')
     }
-  , app: app
   }
 
 app.use(express.logger())
-app.use(express.errorHandler())
-endpoint(test_opts)
-endpoint(echo_opts)
-endpoint.catalog({app: app, path: '/'})
+app.use(express.favicon())
+app.use(endpoint.middleware.static())
+
+app.get(testOpts.path,
+  endpoint.middleware.render(testOpts),
+  endpoint.middleware.params(testOpts),
+  testOpts.handler)
+
+app.get(echoOpts.path,
+  endpoint.middleware.params(echoOpts),
+  echoOpts.handler)
+
+app.use(endpoint.middleware.errorHandler())
+
+app.get('/', endpoint.catalog({endpoints: [testOpts, echoOpts]}))
 
 app.listen(process.env.PORT || 3000)

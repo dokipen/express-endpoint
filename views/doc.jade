@@ -28,33 +28,35 @@ html
       div.doc
         ul.endpoints
           - endpoints.forEach(function(endpoint) {
-            div.endpoint
-              div.section.path
-                div.section_title
-                  p Path
-                div.section_text
-                  p #{endpoint.path}
+            - if (endpoint) {
+              div.endpoint
+                div.section.path
+                  div.section_title
+                    p Path
+                  div.section_text
+                    p #{endpoint.path}
 
-              div.section.description
-                div.section_title
-                  p Description
-                div.section_text
-                  p #{endpoint.description}
+                div.section.description
+                  div.section_title
+                    p Description
+                  div.section_text
+                    p #{endpoint.description}
 
-              div.section.params
-                div.section_title
-                  p Parameters
-                div.section_text
-                  dl.params
-                    - Hash(endpoint.parameters).forEach(function(parameter, name) {
-                      dt :#{parameter.name}
-                      dd #{parameter.description}
-                    - })
+                div.section.params
+                  div.section_title
+                    p Parameters
+                  div.section_text
+                    dl.params
+                      - Hash(endpoint.parameters).forEach(function(parameter, name) {
+                        dt :#{parameter.name}
+                        dd #{parameter.description}
+                      - })
 
-              div.section.example
-                div.section_title
-                  p Example
-                div.section_text
-                  p
-                    a(href='#{endpoint.example}') #{endpoint.example}
+                div.section.example
+                  div.section_title
+                    p Example
+                  div.section_text
+                    p
+                      a(href='#{endpoint.example}') #{endpoint.example}
+            - }
           - })

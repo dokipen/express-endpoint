@@ -3,7 +3,7 @@ var rules = require('../lib/rules')
   , utils = require('../lib/utils');
 
 describe('utils', function() {
-  describe('resolveParameters(params, extraParams)', function() {
+  describe('safeUpdate(obj, extraParams)', function() {
     it('should combine none matching params and extras', function() {
       var params
         , extraParams;
@@ -22,7 +22,7 @@ describe('utils', function() {
       }];
 
 
-      params = utils.resolveParameters(params, extraParams);
+      utils.safeUpdate(params, extraParams);
       params.length.should.eql(3);
     })
     it('should override extras with matching params', function() {
@@ -43,7 +43,7 @@ describe('utils', function() {
       }];
 
 
-      params = utils.resolveParameters(params, extraParams);
+      params = utils.safeUpdate(params, extraParams);
       params.length.should.eql(2);
       params.filter(function(i){return i.value == 'extras'}).should.eql([]);
     })

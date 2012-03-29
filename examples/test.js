@@ -1,9 +1,9 @@
 var app = require('express')()
   , urlparse = require('urlparse.js').parse
-  , endpoint = require('../index')
+  , Endpoint = require('../index')
   , express = require('express')
 
-var testOpts =
+var test = new Endpoint(
   { path: '/my/endpoint'
   , description: 'My endpoint.'
   , example: '/my/endpoint?firstname=bob&lastname=corsaro&age=34&homepage=doki-pen.org/~doki_pen&homepage=bit.ly/rcorsaro'
@@ -52,11 +52,13 @@ var testOpts =
       }
     }
   , handler: function(req, res) {
+      console.log('blah')
       res.renderEndpointData(req.endpointParams)
     }
   }
+)
 
-var echoOpts =
+var echo = new Endpoint(
   { path: '/echo'
   , description: 'Echo message'
   , example: '/echo?msg=Hello+World'
@@ -70,22 +72,14 @@ var echoOpts =
       res.send('<pre>'+req.endpointParams.msg[0]+'<\pre>')
     }
   }
+)
 
-//app.use(express.logger())
-//app.use(express.favicon())
-app.use(endpoint.middleware.static())
+app.use(Endpoint.static())
+app.use(Endpoint.errorHandler())
 
-app.get(testOpts.path,
-  endpoint.middleware.render(testOpts),
-  endpoint.middleware.params(testOpts),
-  testOpts.handler)
+test.mount(app)
+echo.mount(app)
 
-app.get(echoOpts.path,
-  endpoint.middleware.params(echoOpts),
-  echoOpts.handler)
-
-app.use(endpoint.middleware.errorHandler())
-
-app.get('/', endpoint.catalog({endpoints: [testOpts, echoOpts]}))
+app.get('/', Endpoint.catalog({endpoints: [test, echo]}))
 
 app.listen(process.env.PORT || 3000)

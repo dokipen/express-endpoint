@@ -26,6 +26,7 @@
 , "devDependencies":
   { "mocha": "0.7.x"
   , "should": "0.4.x"
+  , "libxmljs": ""
   }
 , "engines": { "node" : ">= 0.4.12", "npm": ">= 1.0.105" }
 , "main": "./index.js"

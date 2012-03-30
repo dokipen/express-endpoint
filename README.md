@@ -2,21 +2,6 @@
 
 A tool to create and document RESTful api endpoints in a declaritive way.
 
-## This Branch
-
-This branch is using tip connect/express. I use npm link for development.
-
-    $ cd ~/src/connect
-    $ nmp link
-    $ cd ~/src/express
-    $ npm link
-    $ npm link connect
-    $ cd ~/src/express-endpoint
-    $ npm install
-    $ npm link express
-
-Use develop.sh to test while writing code.
-
 ## Install
 
     npm install express-endpoint
@@ -26,6 +11,14 @@ or
     git clone http://github.com/dokipen/express-endpoint.git
     cd express-endpoint
     npm link
+
+## Develop
+
+develop.sh runs the tests and app in a loop, restarting the loop each time a
+source file is changed.  You'll need inotifywait to use develop.sh. On gentoo
+and debian/ubuntu it is provided by the inotify-tools package.
+
+    $ ./devlop.sh
 
 ## Demo
 

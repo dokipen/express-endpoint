@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 var app = require('express')()
   , urlparse = require('urlparse.js').parse
   , Endpoint = require('../index')

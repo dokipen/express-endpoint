@@ -13,7 +13,7 @@ html
 
     div#body
       div.errors
-        - if (errors.length > 0) {
+        - if ("undefined" != typeof errors && errors.length > 0) {
           div.error
             - errors.forEach(function(error) {
               div

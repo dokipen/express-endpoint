@@ -2,8 +2,11 @@ var app = require('express')()
   , urlparse = require('urlparse.js').parse
   , Endpoint = require('../index')
   , express = require('express')
+  , test
+  , echo
+  , catalog;
 
-var test = new Endpoint(
+test = new Endpoint(
   { path: '/my/endpoint'
   , description: 'My endpoint.'
   , example: '/my/endpoint?firstname=bob&lastname=corsaro&age=34&homepage=doki-pen.org/~doki_pen&homepage=bit.ly/rcorsaro'
@@ -52,13 +55,12 @@ var test = new Endpoint(
       }
     }
   , handler: function(req, res) {
-      console.log('blah')
       res.renderEndpointData(req.endpointParams)
     }
   }
-)
+);
 
-var echo = new Endpoint(
+echo = new Endpoint(
   { path: '/echo'
   , description: 'Echo message'
   , example: '/echo?msg=Hello+World'
@@ -72,14 +74,17 @@ var echo = new Endpoint(
       res.send('<pre>'+req.endpointParams.msg[0]+'<\pre>')
     }
   }
-)
+);
 
-app.use(Endpoint.static())
-app.use(Endpoint.errorHandler())
+catalog = Endpoint.catalog({endpoints: [test, echo]});
 
-test.mount(app)
-echo.mount(app)
+app.use(express.logger());
+app.use(Endpoint.static());
 
-app.get('/', Endpoint.catalog({endpoints: [test, echo]}))
+test.mount(app);
+echo.mount(app);
+app.get('/', catalog);
 
-app.listen(process.env.PORT || 3000)
+app.use(Endpoint.errorHandler());
+
+app.listen(process.env.PORT || 3000);

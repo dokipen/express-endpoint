@@ -1,12 +1,14 @@
-var app = require('express').createServer()
+#!/usr/bin/env node
+var app = require('express')()
   , urlparse = require('urlparse.js').parse
-  , endpoint = require('../index')
+  , Endpoint = require('../index')
   , express = require('express')
-//  , endpoint = require('connect-endpoint')
+  , test
+  , echo
+  , catalog;
 
-var test_opts =
+test = new Endpoint(
   { path: '/my/endpoint'
-  , doc_on_error: true
   , description: 'My endpoint.'
   , example: '/my/endpoint?firstname=bob&lastname=corsaro&age=34&homepage=doki-pen.org/~doki_pen&homepage=bit.ly/rcorsaro'
   , parameters:
@@ -34,31 +36,32 @@ var test_opts =
       , rules: ['default(false)', 'boolean']
       , description: 'Are you crazy?'
       }
-    , { name: 'callback'
-      , rules: ['callback']
-      , description: 'JSONP Callback.'
-      }
     ]
   , rules:
     { gte18: function(name) {
-        return function(vals) {
-          return vals.map(function(val) {
-            if (val < 18) {
-              throw new Error("["+val+"] is less then 18")
-            } else {
-              return val
-            }
-          })
+        return function(vals, cb) {
+          try {
+            var mapped = vals.map(function(val) {
+              if (val < 18) {
+                throw new Error("["+val+"] is less then 18")
+              } else {
+                return val
+              }
+            })
+            cb(null, mapped)
+          } catch(e) {
+            cb(e)
+          }
         }
       }
     }
   , handler: function(req, res) {
-      res.send('<pre>'+JSON.stringify(req.endpoint_params, null, 2)+"</pre>")
+      res.renderEndpointData(req.endpointParams)
     }
-  , app: app
   }
+);
 
-var echo_opts =
+echo = new Endpoint(
   { path: '/echo'
   , description: 'Echo message'
   , example: '/echo?msg=Hello+World'
@@ -69,16 +72,20 @@ var echo_opts =
       }
     ]
   , handler: function(req, res) {
-      res.send('<pre>'+req.endpoint_params.msg[0]+'<\pre>')
+      res.send('<pre>'+req.endpointParams.msg[0]+'<\pre>')
     }
-  , app: app
   }
+);
 
-app.use('/static', express.static(__dirname + '/../public'))
-app.use(express.logger())
-app.use(express.errorHandler())
-endpoint(test_opts)
-endpoint(echo_opts)
-endpoint.catalog({app: app, path: '/'})
+catalog = Endpoint.catalog({endpoints: [test, echo]});
 
-app.listen(process.env.PORT || 3000)
+app.use(express.logger());
+app.use(Endpoint.static());
+
+test.mount(app);
+echo.mount(app);
+app.get('/', catalog);
+
+app.use(Endpoint.errorHandler());
+
+app.listen(process.env.PORT || 3000);

@@ -16,13 +16,17 @@
 , "directories": { "lib": "./lib" }
 , "dependencies":
   { "hashish": "0.0.4"
-  , "express": "2.5.2"
+  , "express": "git://github.com/visionmedia/express.git#54c3d5c1"
   , "urlparse.js": "0.0.5"
   , "jade": "0.19.0"
+  , "step": ""
+  , "highlight": ""
+  , "json2xml": ""
   }
 , "devDependencies":
   { "mocha": "0.7.x"
   , "should": "0.4.x"
+  , "libxmljs": ""
   }
 , "engines": { "node" : ">= 0.4.12", "npm": ">= 1.0.105" }
 , "main": "./index.js"

@@ -67,13 +67,50 @@ div.endpoint div.params dl dd {
 }
 
 div.errors div.error {
+  font-family: "Droid Sans", "Trebuchet MS", Trebuchet, Helvetica, sans-serif;
+  font-size: 15px;
   margin: 20px auto 0px auto;
-  width: 580px;
+  width: 535px;
   border: 1px solid #c5c5c5;
   box-shadow: 0 1px 5px rgba(0, 0, 0, 0.15);
   background: pink url(../images/error.png) no-repeat;
-  background-position: 7px 8px;
-  padding: 10px 10px 10px 30px;
+  background-position: 1em center;
+  padding: 10px 10px 36px 5em;
   border-radius: 3px;
-  color: #444444;
+  color: #c00;
+  line-height: 25px;
+  min-height: 30px;
+  vertical-align: middle;
+}
+
+div.errors div.error div {
+  position: relative;
+  top: 16px;
+}
+
+div#response {
+  margin: 0px auto 0px auto;
+  padding: 0px;
+  width: 622px;
+}
+div#response pre {
+  padding: 20px 10px 20px 10px;
+  margin: 20px 0px 20px 0px;
+  background: #eeeeee;
+  border: 1px solid #c5c5c5;
+  border-radius: 3px;
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.15);
+  width: 600px;
+}
+
+div#response pre span.string {
+  color: #009900;
+}
+
+div#response pre span.number {
+  color: #000099;
+}
+
+div#response pre span.keyword {
+  color: #990000;
 }

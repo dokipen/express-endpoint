@@ -14,11 +14,11 @@ or
 
 ## Develop
 
-develop.sh runs the tests and app in a loop, restarting the loop each time a
-source file is changed.  You'll need inotifywait to use develop.sh. On gentoo
-and debian/ubuntu it is provided by the inotify-tools package.
+The develop script runs the tests and app in a loop, restarting the loop each
+time a source file is changed.  You'll need inotifywait to use develop.sh. On
+gentoo and debian/ubuntu it is provided by the inotify-tools package.
 
-    $ ./devlop.sh
+    $ npm run-script develop
 
 ## Demo
 

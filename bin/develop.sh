@@ -11,10 +11,10 @@ function watch {
             --event create \
             --event delete \
             --event move \
-            lib test
+            lib test examples
 
         if [[ "0" == $? ]]; then
-            pkill -f test.js
+            pkill -f "node examples/test.js"
         fi
     done
 }

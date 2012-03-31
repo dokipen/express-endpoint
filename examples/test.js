@@ -56,7 +56,7 @@ test = new Endpoint(
       }
     }
   , handler: function(req, res) {
-      res.renderEndpointData(req.endpointParams)
+      res.renderEndpointData(req.endpointParams);
     }
   }
 );
@@ -87,5 +87,6 @@ echo.mount(app);
 app.get('/', catalog);
 
 app.use(Endpoint.errorHandler());
+app.use(express.errorHandler());
 
 app.listen(process.env.PORT || 3000);

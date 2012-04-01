@@ -8,7 +8,13 @@ describe('params middleware', function() {
   function setup() {
     var mock = {
         res: {},
-        req: {endpointParams: {}, endpointConfig: {}},
+        req: {
+            endpointParams: {},
+            endpointConfig: {},
+            param: function() {
+                return 'a';
+            }
+        },
         err: new Error('my error'),
         config: {parameters: [
           { name: 'letter'
@@ -24,7 +30,7 @@ describe('params middleware', function() {
     var mock = setup();
 
     mock.next = function() {
-      //mock.req.endpointParams.letter.should.eql('a');
+      mock.req.endpointParams.letter.should.eql('a');
       done();
     };
 

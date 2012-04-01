@@ -1,3 +1,5 @@
+  [![Build Status](https://secure.travis-ci.org/visionmedia/mocha.png)](http://travis-ci.org/visionmedia/mocha)
+
 # express-endpoint
 
 A tool to create and document RESTful api endpoints in a declaritive way.

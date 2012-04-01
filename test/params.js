@@ -41,11 +41,47 @@ describe('params middleware', function() {
     var mock = setup();
     mock.config.parameters.push({ name: 'blah', rules: ['fakerule'] });
 
+    (function() {
+      params(mock.config);
+    }).should.throw(/does not exist/);
+
+    done();
+  });
+
+  it('should throw an error on rule failure', function(done) {
+    var mock = setup();
+    mock.req.param = function(n, d) { return d; }
+
     mock.next = function(err) {
-      err.should.not.eql(null);
+      should.exist(err);
+      should.exist(err.paramErrors);
+      err.paramErrors.length.should.eql(1);
+      err.message.should.eql("Error parsing parameters");
+      err.paramErrors[0].message.should.eql("The parameter is required");
+      err.paramErrors[0].parameterName.should.eql("letter");
       done();
     };
 
-    mock.handler(mock.req, mock.res, mock.next)
+    mock.handler(mock.req, mock.res, mock.next);
+  });
+
+  it('should throw have multiple errors on multiple rule failures', function(done) {
+    var mock = setup();
+    mock.config.parameters.push({name: 'number', rules: ['number', 'once']})
+    mock.req.param = function(n, d) { var params = {letter: d, number: 'a'}; return params[n]; }
+
+    mock.next = function(err) {
+      should.exist(err);
+      should.exist(err.paramErrors);
+      err.paramErrors.length.should.eql(2);
+      err.message.should.eql("Error parsing parameters");
+      err.paramErrors[0].message.should.eql("The parameter is required");
+      err.paramErrors[0].parameterName.should.eql("letter");
+      err.paramErrors[1].message.should.eql("Invalid number [a]");
+      err.paramErrors[1].parameterName.should.eql("number");
+      done();
+    };
+
+    mock.handler(mock.req, mock.res, mock.next);
   });
 });

@@ -1,37 +1,53 @@
-{ "name": "express-endpoint"
-, "version": "0.0.7"
-, "description": "Parse, validate, document and molest endpoint parameters."
-, "homepage": "https://github.com/dokipen/express-endpoint"
-, "keywords": ["url", "parse", "validation", "connect", "express", "doc", "api"]
-, "author":
-  { "name": "Bob Corsaro"
-  , "email": "rcorsaro@gmail.com"
-  , "url": "http://www.google.com/profiles/rcorsaro"
-  }
-, "repository":
-  { "type": "git"
-  , "url": "git://github.com/dokipen/express-endpoint"
-  }
-, "bugs": { "url": "http://github.com/dokipen/express-endpoint/issues/" }
-, "directories": { "lib": "./lib" }
-, "dependencies":
-  { "hashish": "0.0.4"
-  , "express": "git://github.com/visionmedia/express.git#54c3d5c1"
-  , "urlparse.js": "0.0.5"
-  , "jade": "0.19.0"
-  , "step": ""
-  , "highlight": ""
-  , "json2xml": ""
-  }
-, "devDependencies":
-  { "mocha": "0.7.x"
-  , "should": "0.4.x"
-  , "libxmljs": ""
-  }
-, "engines": { "node" : ">= 0.5.0", "npm": ">= 1.0.105" }
-, "main": "./index.js"
-, "scripts":
-  { "test": "mocha"
-  , "develop": "bin/develop.sh"
-  }
+{
+  "name": "express-endpoint",
+  "version": "1.0.0",
+  "description": "Parse, validate, document and molest endpoint parameters.",
+  "homepage": "https://github.com/dokipen/express-endpoint",
+  "keywords": [
+    "url",
+    "parse",
+    "validation",
+    "connect",
+    "express",
+    "doc",
+    "api"
+  ],
+  "author": "Bob Corsaro <rcorsaro@gmail.com> (http://www.google.com/profiles/rcorsaro)",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/dokipen/express-endpoint.git"
+  },
+  "bugs": {
+    "url": "http://github.com/dokipen/express-endpoint/issues/"
+  },
+  "directories": {
+    "lib": "./lib"
+  },
+  "dependencies": {
+    "hashish": "0.0.4",
+    "express": "git://github.com/visionmedia/express.git#54c3d5c1",
+    "urlparse.js": "0.0.5",
+    "jade": "0.19.0",
+    "step": "",
+    "highlight": "",
+    "json2xml": ""
+  },
+  "devDependencies": {
+    "mocha": "0.7.x",
+    "should": "0.4.x",
+    "libxmljs": ""
+  },
+  "engines": {
+    "node": ">= 0.5.0",
+    "npm": ">= 1.0.105"
+  },
+  "main": "./index.js",
+  "scripts": {
+    "test": "mocha",
+    "develop": "bin/develop.sh"
+  },
+  "contributors": [
+    "Bob Corsaro <rcorsaro@gmail.com> (http://bit.ly/rcorsaro)"
+  ],
+  "optionalDependencies": {}
 }

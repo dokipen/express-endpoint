@@ -48,28 +48,26 @@ parameter that is an object containing the following options.
   * path         - The endpoint path as used by the express router. See
                    http://expressjs.com/guide.html#routing for details.
                    (required)
-  * aliases      - An array of path aliases for the endpoint.
   * description  - A human readable description of the endpoint. (required)
   * example      - An example URL for the endpoint.
   * parameters   - The set of parameters the endpoint accepts. See below
                    for details.
   * rules        - A set of custom rules to suppliment or override the
                    default rules. Default rules are defined below.
-  * handler      - The function(req, res, next) that actually handles the
+  * handler      - The function(req, res) that actually handles the
                    request. See
                    http://expressjs.com/guide.html#creating-a server
-                   (required)
                    The validated/sanitized parameters are passed as
-                   req.endpont_params
-  * doc_on_error - If specified, we will display the endpoint documentation
-                   and en error message on a validation error.
-  * view         - The name of the doc template.
+                   req.endpointParams. (required)
+  * view         - The name of the doc template. There is a default.
   * render_view  - The name of the render template for text/html requests.
-  * stylesheets  - Stylesheet URIs to inject into the views.
+                   There is a default.
+  * stylesheets  - Stylesheet URIs to inject into the views. There are
+                   defaults.
 
 ### mount(app)
 
-Once the endpoint is created, it can be mounted on the express app by calling
+Once the `Endpoint` is created, it can be mounted on the express app by calling
 `endpoint.mount(app)`. `mount(app)` is a convenience method. You can also set
 things up manually like so:
 
@@ -77,33 +75,59 @@ things up manually like so:
 
 ### middleware(selected)
 
-endpoint.middleware(selected) returns an `Array` of middleware for the
-endpoint object. By default this included the `render` and `params` middleware.
+`endpoint.middleware(selected)` returns an `Array` of middleware for the
+`Endpoint`. This included the `render` and `params` middleware by default.
 
-The render middleware adds a `renderEndpointData(payload)` function to the
-response object. The function will render an `Object` in the appropriate
+The `render` middleware adds a `renderEndpointData(payload)` function to the
+`res` object. The function will render an `Object` in the appropriate
 format according to the `Accept` header.
 
-The params middleware is the meat of endpoint. It is where the parameters and
-rules used to parse the request. It adds a `endpointParams` field to the
-requests object that contains the parsed parameters.
+The `params` middleware is the meat of `Endpoint`. It is where the parameters
+and rules are used to parse the request. It adds an `endpointParams` field to
+the `req` object that contains the parsed parameters.
 
 ## Catalog
 
-Catalog is used to render the documentation for all endpoints. It is called
-via the module property function catalog(opts). It takes a single options
+Catalog is used to render the documentation for all `Endpoint`s. It is called
+via the module property function `catalog(opts)`. It takes a single options
 parameter that is an object containing the following properties.
 
-  * endpoints    - Endpoint objects to catalog.
-  * view         - The name of the doc template.
-  * stylesheets  - Stylesheet URIs to inject into the views.
+  * endpoints    - Endpoint objects to catalog. (required)
+  * view         - The name of the doc template. There is a default.
+  * stylesheets  - Stylesheet URIs to inject into the views. There are
+                   defaults.
 
-## ParameterS
+## Middleware
+
+In addition to the `Endpoint` middleware, there are two general middlewares.
+
+### errorHandler
+
+This handler will render any parsing/validation errors for request
+parameters, according to the `Accept` header.
+
+    var errorHandler = require('express-endpoint').middleware.errorHandler;
+
+    app.use(errorHandler());
+
+*note* _This would be better if it were part of the Endpoint middleware, but
+the current version of express doesn't support URL specifice errorHandler
+middleware._
+
+### static
+
+This handler provides the default `express-endpoint` static content.
+
+    var static = require('express-endpoint').middleware.static;
+
+    app.use(static());
+
+## Parameters
 
 Parameters are defined as an object with the following parameters.
 
   * name         - The name of the parameter.
-  * rules        - An array of rules for the parameter.
+  * rules        - An array of `String` rules for the parameter.
   * description  - A detailed description of the parameter.
 
 Rules are specified as strings, with a single optional parameter. The rule
@@ -117,18 +141,19 @@ For rules that don't take parameters, the parenthesis can be omitted.
 
     ['once']
 
-Rules are executed in the order specified. Default rules are described below.
+Rules are executed in the order specified. Builtin rules are described below.
 
-## Rule Definitions
+## Rule
 
-express-endpoint validates and sanitizes parameters via rules.
+`express-endpoint` validates and sanitizes parameters via rules.
 
-express-endpoint comes with a set of rules, and custom rules are easily added.
-To add rules, set the 'rules' endpoint options. The default rules can still be
-used as long as you don't use the same rule name with your rules. Using the
-same name as a default rule will override that rule with your implementation.
-All rules expect an Array of values as input, but can return a single value.
-Make sure that any rules that return a single value are specified last.
+`express-endpoint` comes with a set of builtin rules, and custom rules are
+easily added.  To add rules, set the 'rules' `Endpoint` options. The default
+rules can still be used as long as you don't use the same rule name with your
+custom rules. Using the same name as a default rule will override that rule
+with your implementation. All rules accept an `Array` of values as input, but
+can return a single value. Make sure that any rules that return a single value
+are specified last.
 
  * default(v) - Sets the parameter to _v_ if it's not specified. This should
                 usually be called first.
@@ -152,9 +177,9 @@ Make sure that any rules that return a single value are specified last.
                 in seconds. If you are using non-current dates you should
                 probably roll your own.
 
-A rule is defined as a function(parameter_name, string_argument) that returns
-a validator/sanitizer function(array_of_parameter_values). It should throw an
-Error for invalid values, or return a sanitized array of values for valid
+A rule is defined as a `function(parameterName, stringArgument)` that returns
+a validator/sanitizer function(arrayOfParameterValues). It should throw an
+Error for invalid values, or return a sanitized `Array` of values for valid
 values.
 
 Here is an example of defining a custom rule to make sure a value is greater

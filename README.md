@@ -1,4 +1,4 @@
-  [![Build Status](https://secure.travis-ci.org/visionmedia/mocha.png)](http://travis-ci.org/visionmedia/mocha)
+  [![Build Status](https://secure.travis-ci.org/dokipen/express-endpoint.png)](http://travis-ci.org/dokipen/express-endpoint)
 
 # express-endpoint
 

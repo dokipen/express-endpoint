@@ -28,11 +28,13 @@ describe('render', function() {
       mock.res.format = function(obj) {
         mock.res.send = function(text) {
           JSON.parse(text).should.eql({number: 1, letter: "a"});
+          this.charset.should.eql("utf-8")
         }
         obj.json()
 
         mock.res.send = function(text) {
           text.should.eql('c({"letter":"a","number":1})');
+          this.charset.should.eql("utf-8")
         }
         obj.js()
 
@@ -40,6 +42,7 @@ describe('render', function() {
           var doc = libxmljs.parseXmlString(text);
           doc.get('//letter').text().should.eql('a');
           doc.get('//number').text().should.eql('1');
+          this.charset.should.eql("utf-8")
         }
         obj.xml()
 
@@ -48,6 +51,7 @@ describe('render', function() {
           should.not.exist(obj.errors);
           obj.config.should.have.property('stylesheets');
           obj.config.should.have.property('render_view');
+          this.charset.should.eql("utf-8")
         }
         obj.html()
 

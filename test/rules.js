@@ -103,7 +103,7 @@ describe('rules', function() {
     var fn = rules.timestamp('timestamp')
     it('should fail on invalid times', function(done) {
       fn(['lkasjdf'], function(err, vals) {
-        err.should.not.equal(null)
+        should.exist(err)
         done()
       })
     })

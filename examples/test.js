@@ -14,11 +14,11 @@ test = new Endpoint(
   , parameters:
     [ { name: 'firstname'
       , rules: ['regex(^[^0-9_]+$)', 'required', 'once']
-      , description: 'The first name. (required)'
+      , description: 'The first name.'
       }
     , { name: 'lastname'
       , rules: ['regex(^[^0-9_]+$)', 'required', 'once']
-      , description: 'The last name. (required)'
+      , description: 'The last name.'
       }
     , { name: 'homepage'
       , rules: ['url', 'max(3)']
@@ -26,7 +26,7 @@ test = new Endpoint(
       }
     , { name: 'age'
       , rules: ['number', 'required', 'gte18', 'once']
-      , description: 'The age. Must be at least 18. (required)'
+      , description: 'The age. Must be at least 18.'
       }
     , { name: 'favorite-color'
       , rules: ['default(blue)', 'regex(^(blue|red|yellow|black|white|green)$)', 'once']

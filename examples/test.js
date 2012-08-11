@@ -79,6 +79,8 @@ echo = new Endpoint(
 
 catalog = Endpoint.catalog({endpoints: [test, echo]});
 
+app.set('view options', { pretty: true });
+
 app.use(express.logger());
 app.use(Endpoint.static());
 

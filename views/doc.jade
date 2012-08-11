@@ -55,10 +55,11 @@ html
                         dt(class=classes) #{parameter.name}
                         dd
                           input(name=parameter.name, class=classes)
-                          #{parameter.description}
+                          =parameter.description
                       - })
 
                     input.tryItButton(type="button", value="Try It")
+                    br
 
                 div.section.example
                   div.section_title

@@ -1,7 +1,8 @@
 var params = require('../lib/middleware/params')
   , should = require('should')
   , step = require('step')
-  , libxmljs = require('libxmljs');
+  , libxmljs = require('libxmljs')
+  , rules = require('../lib/rules');
 
 describe('params middleware', function() {
 
@@ -9,17 +10,22 @@ describe('params middleware', function() {
     var mock = {
         res: {},
         req: {
-            endpointParams: {},
-            endpointConfig: {},
+            endpoint: {
+              params: {},
+              config: {}
+            },
             param: function() {
                 return 'a';
             }
         },
         err: new Error('my error'),
-        config: {parameters: [
-          { name: 'letter'
-          , rules: ['regex(^[a-zA-Z]$)', 'required', 'once'] }
-        ]},
+        config: {
+          parameters: [ {
+            name: 'letter',
+            rules: ['regex(^[a-zA-Z]$)', 'required', 'once']
+          } ],
+          rules: rules
+        },
         next: function() {}
     }
     mock.handler = params(mock.config)
@@ -30,7 +36,7 @@ describe('params middleware', function() {
     var mock = setup();
 
     mock.next = function() {
-      mock.req.endpointParams.letter.should.eql('a');
+      mock.req.endpoint.params.letter.should.eql('a');
       done();
     };
 

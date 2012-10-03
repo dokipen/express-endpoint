@@ -8,7 +8,7 @@ describe('render', function() {
   function setup() {
     var mock = {
         res: {},
-        req: { endpointParams: {callback: 'c'} },
+        req: { endpoint: { params: {callback: 'c'} } },
         config: {}
     }
     mock.handler = render(mock.config)
@@ -57,7 +57,7 @@ describe('render', function() {
 
         done()
       };
-      mock.res.renderEndpointData({letter: 'a', number: 1})
+      mock.res.endpoint.render({letter: 'a', number: 1})
     }
     mock.handler(mock.req, mock.res, mock.next)
   });

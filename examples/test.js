@@ -56,7 +56,7 @@ test = new Endpoint(
       }
     }
   , handler: function(req, res) {
-      res.renderEndpointData(req.endpointParams);
+      res.endpoint.render(req.endpoint.params);
     }
   }
 );
@@ -71,15 +71,24 @@ echo = new Endpoint(
       , description: 'Message that should be echoed. (required)'
       }
     ]
+  , middleware:
+    { hi:
+        function() {
+          return function(req, res, next) {
+            console.log('hi from middleware')
+            next()
+          }
+        }
+    }
   , handler: function(req, res) {
-      res.send('<pre>'+req.endpointParams.msg[0]+'<\pre>')
+      res.send('<pre>'+req.endpoint.params.msg[0]+'<\pre>')
     }
   }
 );
 
 catalog = Endpoint.catalog({endpoints: [test, echo]});
 
-app.use(express.logger());
+app.use(express.logger('dev'));
 app.use(Endpoint.static());
 
 test.mount(app);

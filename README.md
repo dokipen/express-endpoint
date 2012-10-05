@@ -39,7 +39,6 @@ rcorsaro@gmail.com
 ### TODO
 
   * Automatically add rule doc to parameter doc
-  * Ack request methods
   * Authentication
 
 ## Endpoint
@@ -80,12 +79,12 @@ things up manually like so:
 `endpoint.middleware(selected)` returns an `Array` of middleware for the
 `Endpoint`. This included the `render` and `params` middleware by default.
 
-The `render` middleware adds a `renderEndpointData(payload)` function to the
+The `render` middleware adds a `endpoint.render(payload)` function to the
 `res` object. The function will render an `Object` in the appropriate
 format according to the `Accept` header.
 
 The `params` middleware is the meat of `Endpoint`. It is where the parameters
-and rules are used to parse the request. It adds an `endpointParams` field to
+and rules are used to parse the request. It adds an `endpoint.params` field to
 the `req` object that contains the parsed parameters.
 
 ## Catalog

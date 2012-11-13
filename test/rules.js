@@ -50,7 +50,7 @@ describe('rules', function() {
       step(
         function() {
           var self = this
-          ['zonclick', '$$', 'a9879385472945_234aASDFasdf'].forEach(function(name) {
+          ;['zonclick', '$$', 'a9879385472945_234aASDFasdf'].forEach(function(name) {
             var p = self.parallel()
             fn([name], function(err, vals) {
               should.not.exist(err)
@@ -115,7 +115,7 @@ describe('rules', function() {
       step(
         function() {
           var self = this
-          [str_ms, str_s].forEach(function(val) {
+          ;[str_ms, str_s].forEach(function(val) {
             var p = self.parallel()
             fn([val], function(err, vals) {
               should.not.exist(err)
@@ -136,7 +136,7 @@ describe('rules', function() {
       step(
         function() {
           var self = this
-          ['1', '', 'true'].forEach(function(val) {
+          ;['1', '', 'true'].forEach(function(val) {
             var p = self.parallel()
             fn([val], function(err, val) {
               should.not.exist(err)
@@ -149,7 +149,7 @@ describe('rules', function() {
       )
     })
     it("should only accept one value", function(done) {
-      fn(['1', '1'], function(err, vals) {
+      fn(['1', '1'], function(err) {
         err.should.not.eql(null)
         done()
       })
@@ -158,7 +158,7 @@ describe('rules', function() {
       step(
         function() {
           var self = this
-          ['2', 'truer'].forEach(function(val) {
+          ;['2', 'truer'].forEach(function(val) {
             var p = self.parallel()
             fn(val, function(err, val) {
               should.not.exist(err)
@@ -177,7 +177,7 @@ describe('rules', function() {
       step(
         function() {
           var self = this
-          ['a', 'aa', 'aaa'].forEach(function(val) {
+          ;['a', 'aa', 'aaa'].forEach(function(val) {
             var p = self.parallel()
             fn([val], function(err, vals) {
               should.not.exist(err)
@@ -190,7 +190,7 @@ describe('rules', function() {
       )
     })
     it("should fail on non-matching params", function(done) {
-      fn(['a', 'b', 'aa'], function(err, vals) {
+      fn(['a', 'b', 'aa'], function(err) {
         err.should.not.eql(null)
         done()
       })
@@ -217,7 +217,7 @@ describe('rules', function() {
       )
     })
     it("should fail on non-valid urls", function(done) {
-      fn(['::/:/', 'www.yahoo.com'], function(err, vals) {
+      fn(['::/:/', 'www.yahoo.com'], function(err) {
         err.should.not.eql(null)
         done()
       })
@@ -233,7 +233,7 @@ describe('rules', function() {
       })
     })
     it("should fail if param is empty", function(done) {
-      fn([], function(err, vals) {
+      fn([], function(err) {
         err.should.not.eql(null)
         done()
       })
@@ -259,7 +259,7 @@ describe('rules', function() {
     })
     it("should fail if param is specified more then max times", function(done) {
       var fn = rules.max('max', 3)
-      fn([1,2,3,4], function(err, vals) {
+      fn([1,2,3,4], function(err) {
         err.should.not.eql(null)
         done()
       })
@@ -275,7 +275,7 @@ describe('rules', function() {
       })
     })
     it("should fail if param is specified more then once", function(done) {
-      fn(['1', '2'], function(err, vals) {
+      fn(['1', '2'], function(err) {
         err.should.not.eql(null)
         done()
       })

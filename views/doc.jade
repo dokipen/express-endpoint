@@ -51,7 +51,6 @@ html
                     dl.params
                       - Hash(endpoint.parameters).forEach(function(parameter, name) {
                       -   var classes = parameter.rules.map(function(rule) {return rule.split('(')[0]}).join(" ");
-                      -   console.log(classes);
                         dt(class=classes) #{parameter.name}
                         dd
                           input(name=parameter.name, class=classes)

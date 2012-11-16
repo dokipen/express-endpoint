@@ -8,7 +8,7 @@ describe('errorHandler', function() {
   function setup() {
     var mock = {
         res: {},
-        req: {endpointParams: {}, endpointConfig: {}},
+        req: {endpoint: { params: {}, config: {}}},
         err: new Error('my error'),
         config: {},
         next: function() {}
@@ -21,7 +21,7 @@ describe('errorHandler', function() {
     var mock = setup();
     mock.err.paramErrors = [{parameterName: 'name', message: 'my error'}];
 
-    mock.req.endpointParams.callback = 'a'
+    mock.req.endpoint.params.callback = 'a'
     mock.res.format = function(obj) {
       mock.res.send = function(text) {
         mock.res.statusCode.should.eql(400);

@@ -1,6 +1,6 @@
 {
   "name": "express-endpoint",
-  "version": "1.1.1",
+  "version": "1.2.0",
   "description": "Parse, validate, document and molest endpoint parameters.",
   "homepage": "https://github.com/dokipen/express-endpoint",
   "keywords": [

@@ -18,14 +18,24 @@ div.endpoint {
   border: 1px solid #c5c5c5;
   border-radius: 3px;
   box-shadow: 0 1px 5px rgba(0, 0, 0, 0.15);
-  color: #444444;
+  color: #444466;
   width: 600px;
 }
 
-div.endpoint a:visited, div.endpoint a:link, div.endpoint a:hover, div.endpoint a:active {
+div.endpoint p.pathname {
+  color: #000066;
+  font-weight: bold;
+  font-family: "Droid Sans Mono", "Andale Mono", Fixed, monospace;
+}
+
+div.endpoint a:visited, div.endpoint a:link, div.endpoint a:active {
   color: #4444bb;
   text-decoration: none;
   font-weight: bold;
+}
+
+div.endpoint a:hover {
+  text-decoration: underline;
 }
 
 
@@ -35,7 +45,7 @@ div.endpoint div.section {
 div.endpoint div.section div.section_title {
   font-weight: bold;
   font-size: 1em;
-  color: #888888;
+  color: #888899;
 }
 
 div.endpoint div.section div.section_text {
@@ -54,16 +64,30 @@ div.endpoint div.params dl dt {
   position: relative;
   left: 0;
   top: 1.1em;
-  width: 9em;
+  width: 11em;
+  color: #000066;
+  font-family: "Droid Sans Mono", "Andale Mono", Fixed, monospace;
+}
+
+div.endpoint div.params dl dt.required {
   font-weight: bold;
-  color: #000000;
 }
 
 div.endpoint div.params dl dd {
-  border-left: 1px solid #000;
-  margin: 0 0 0 9em;
+  font-size: 0.9em;
+  margin: 0 0 0 11em;
   padding: 0 0 .2em .5em;
   min-height: 1em;
+}
+
+div.endpoint div.params dl dd input {
+  width: 10em;
+  margin-right: 1em;
+}
+
+div.endpoint input[type=button] {
+  float: right;
+  margin-right: 2em;
 }
 
 div.errors div.error {
@@ -78,7 +102,7 @@ div.errors div.error {
   padding: 10px 10px 36px 5em;
   border-radius: 3px;
   color: #c00;
-  line-height: 25px;
+  line-height: 1.12em;
   min-height: 30px;
   vertical-align: middle;
 }
@@ -114,3 +138,41 @@ div#response pre span.number {
 div#response pre span.keyword {
   color: #990000;
 }
+
+div.endpoint ul.params {
+  list-style: none;
+  margin: 0px;
+  padding: 0px 1em;
+}
+
+div.endpoint div.url {
+  background: #EEE;
+  border 1px solid #C5c5c5;
+  font-size: 0.9em;
+  font-family: "Droid Sans Mono", "Andale Mono", Fixed, monospace;
+  line-height: 1.12em;
+}
+
+div.endpoint div.url a {
+  color: #889;
+}
+
+div.endpoint div.url span.pathname {
+  color: #000066;
+  font-weight: bold;
+  line-height: 1.2em;
+}
+
+div.endpoint div.url li.param {
+  font-weight: normal;
+  font-family: "Droid Sans Mono", "Andale Mono", Fixed, monospace;
+}
+
+div.endpoint div.url li.param span.name {
+  color: blue;
+}
+
+div.endpoint div.url li.param span.value {
+  color: #a31515;
+}
+

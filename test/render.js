@@ -21,13 +21,13 @@ describe('render', function() {
     done();
   });
 
-  it('should renderEdnpointData', function(done) {
+  it('should renderEndpointData', function(done) {
     var mock = setup();
 
     mock.next = function() {
       mock.res.format = function(obj) {
         mock.res.send = function(text) {
-          JSON.parse(text).should.eql({number: 1, letter: "a"});
+          text.should.eql('c({"letter":"a","number":1})');
           this.charset.should.eql("utf-8")
         }
         obj.json()

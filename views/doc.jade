@@ -1,4 +1,4 @@
-!!! 5
+doctype 5
 html
   head
     - config.stylesheets.forEach(function(css) {
@@ -67,7 +67,7 @@ html
                     div.url
                       a(href='#{endpoint.example}')
                         span.pathname #{endpoint.exampleUrl.pathname}
-                        ?
+                        \?
                         ul.params
                           - var i = 0
                           - var query = Hash(endpoint.exampleUrl.query)
@@ -76,7 +76,7 @@ html
                           -   i++
                           li.param
                             span.name #{name}
-                            =
+                            \=
                             span.value #{value}
                             - if (length > i) {
                               &amp;

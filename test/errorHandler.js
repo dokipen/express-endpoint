@@ -25,13 +25,13 @@ describe('errorHandler', function() {
     mock.res.format = function(obj) {
       mock.res.send = function(text) {
         mock.res.statusCode.should.eql(400);
-        JSON.parse(text).should.eql({"error": 1, "errors":[{"message":"my error", "parameterName":"name"}]});
+        JSON.parse(text).should.eql({"error": 1, "errors":[{"message":"my error", "parameterName":"name"}], "error_message": "name: my error"});
       }
       obj.json()
 
       mock.res.send = function(text) {
         mock.res.statusCode.should.eql(400);
-        text.should.eql('a({"error":1,"errors":[{"message":"my error","parameterName":"name"}]})');
+        text.should.eql('a({"error":1,"errors":[{"message":"my error","parameterName":"name"}],"error_message":"name: my error"})');
       }
       obj.js()
 

@@ -1,5 +1,3 @@
-var endpoint = require('./lib/endpoint.js')
-  , catalog = require('./lib/catalog.js')
-
-exports = module.exports = endpoint
-exports.catalog = module.exports.catalog = catalog
+exports = module.exports = require('./lib/endpoint');
+exports.catalog = module.exports.catalog = require('./lib/catalog');
+exports.rules = module.exports.rules = require('./lib/rules');

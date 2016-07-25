@@ -2,11 +2,25 @@ var params = require('../lib/middleware/params')
   , should = require('should')
   , step = require('step')
   , libxmljs = require('libxmljs')
+  , debug = require('debug')('express-endpoint:test')
   , rules = require('../lib/rules');
 
 describe('params middleware', function() {
 
-  function setup() {
+  function setup(overrideParams, overrideDefs) {
+    var ps = overrideParams
+    if (typeof(ps) == 'undefined') {
+      debug("using default params")
+      var ps = {letter: 'a'}
+    }
+    var defs = overrideDefs
+    if (typeof(defs) == 'undefined') {
+      debug("using default parameter defs")
+      var defs = [{
+        name: 'letter',
+        rules: ['regex(^[a-zA-Z]$)', 'required', 'once']
+      }]
+    }
     var mock = {
         res: {},
         req: {
@@ -14,16 +28,11 @@ describe('params middleware', function() {
               params: {},
               config: {}
             },
-            param: function() {
-                return 'a';
-            }
+            params: ps
         },
         err: new Error('my error'),
         config: {
-          parameters: [ {
-            name: 'letter',
-            rules: ['regex(^[a-zA-Z]$)', 'required', 'once']
-          } ],
+          parameters: defs,
           rules: rules
         },
         next: function() {}
@@ -36,6 +45,7 @@ describe('params middleware', function() {
     var mock = setup();
 
     mock.next = function() {
+      debug(mock.req.endpoint.params);
       mock.req.endpoint.params.letter.should.eql('a');
       done();
     };
@@ -55,10 +65,10 @@ describe('params middleware', function() {
   });
 
   it('should throw an error on rule failure', function(done) {
-    var mock = setup();
-    mock.req.param = function(n, d) { return d; }
+    var mock = setup({});
 
     mock.next = function(err) {
+      debug(mock.req.endpoint.params);
       should.exist(err);
       should.exist(err.paramErrors);
       err.paramErrors.length.should.eql(1);
@@ -72,19 +82,20 @@ describe('params middleware', function() {
   });
 
   it('should throw have multiple errors on multiple rule failures', function(done) {
-    var mock = setup();
-    mock.config.parameters.push({name: 'number', rules: ['number', 'once']})
-    mock.req.param = function(n, d) { var params = {letter: d, number: 'a'}; return params[n]; }
+    var mock = setup({number: 'a'}, [
+      {name: 'number', rules: ['number', 'once']},
+      {name: 'letter', rules: ['regex(^[a-zA-Z]$)', 'required', 'once']}
+    ]);
 
     mock.next = function(err) {
       should.exist(err);
       should.exist(err.paramErrors);
       err.paramErrors.length.should.eql(2);
       err.message.should.eql("Error parsing parameters");
-      err.paramErrors[0].message.should.eql("The parameter is required");
-      err.paramErrors[0].parameterName.should.eql("letter");
-      err.paramErrors[1].message.should.eql("Invalid number [a]");
-      err.paramErrors[1].parameterName.should.eql("number");
+      err.paramErrors[1].message.should.eql("The parameter is required");
+      err.paramErrors[1].parameterName.should.eql("letter");
+      err.paramErrors[0].message.should.eql("Invalid number [a]");
+      err.paramErrors[0].parameterName.should.eql("number");
       done();
     };
 

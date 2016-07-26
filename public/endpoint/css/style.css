@@ -127,15 +127,19 @@ div#response pre {
   width: 600px;
 }
 
-div#response pre span.string {
+div#response pre span.hljs-string {
   color: #009900;
 }
 
-div#response pre span.number {
+div#response pre span.hljs-number {
   color: #000099;
 }
 
-div#response pre span.keyword {
+div#response pre span.hljs-keyword {
+  color: #990000;
+}
+
+div#response pre span.hljs-attr {
   color: #990000;
 }
 
@@ -175,4 +179,3 @@ div.endpoint div.url li.param span.name {
 div.endpoint div.url li.param span.value {
   color: #a31515;
 }
-

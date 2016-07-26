@@ -43,7 +43,7 @@ describe('errorHandler', function() {
 
       mock.res.render = function(view, obj) {
         mock.res.statusCode.should.eql(400);
-        view.should.match(/doc.jade$/);
+        view.should.match(/doc.pug/);
         obj.errors.length.should.eql(1);
         obj.errors[0].should.have.property('message', 'my error');
         obj.config.should.have.property('stylesheets');

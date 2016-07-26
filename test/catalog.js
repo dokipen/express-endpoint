@@ -20,7 +20,7 @@ describe('render', function() {
     var mock = setup();
 
     mock.res.render = function(view, payload) {
-      view.should.match(/doc.jade/);
+      view.should.match(/doc.pug/);
       payload.errors.length.should.eql(0);
       payload.endpoints.length.should.eql(2);
       payload.endpoints[0].should.eql({name: 'a'});

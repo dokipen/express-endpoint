@@ -46,7 +46,7 @@ describe('render', function() {
         obj.xml()
 
         mock.res.render = function(view, obj) {
-          view.should.match(/response.jade$/);
+          view.should.match(/response.pug$/);
           should.not.exist(obj.errors);
           obj.config.should.have.property('stylesheets');
           obj.config.should.have.property('render_view');

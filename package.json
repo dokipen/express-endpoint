@@ -25,21 +25,23 @@
   },
   "dependencies": {
     "express": "*",
-    "highlight": "*",
+    "highlight.js": "*",
     "pug": "*",
     "json2xml": "*",
     "lodash": "*",
     "q": "*",
-    "urlparse.js": "*"
+    "urlparse.js": "*",
+    "morgan": "*",
+    "errorhandler": "*"
   },
   "devDependencies": {
-    "mocha": "*",
+    "jasmine": "*",
     "should": "*",
     "libxmljs": "*"
   },
   "main": "./index.js",
   "scripts": {
-    "test": "mocha",
+    "test": "jasmine",
     "develop": "bin/develop.sh"
   },
   "contributors": [

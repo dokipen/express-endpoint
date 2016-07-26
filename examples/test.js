@@ -2,7 +2,8 @@
 var app = require('express')()
   , urlparse = require('urlparse.js').parse
   , Endpoint = require('../index')
-  , express = require('express')
+  , morgan = require('morgan')
+  , errorHandler = require('errorhandler')
   , test
   , echo
   , catalog;
@@ -90,7 +91,7 @@ catalog = Endpoint.catalog({endpoints: [test, echo]});
 
 app.set('view options', { pretty: true });
 
-app.use(express.logger());
+app.use(morgan('combined'));
 app.use(Endpoint.static());
 
 test.mount(app);
@@ -98,6 +99,6 @@ echo.mount(app);
 app.get('/', catalog);
 
 app.use(Endpoint.errorHandler());
-app.use(express.errorHandler());
+app.use(errorHandler());
 
 app.listen(process.env.PORT || 3000);

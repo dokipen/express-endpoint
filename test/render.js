@@ -1,6 +1,5 @@
 var render = require('../lib/middleware/render')
   , should = require('should')
-  , step = require('step')
   , libxmljs = require('libxmljs');
 
 describe('render', function() {

@@ -1,6 +1,7 @@
 var rules = require('../lib/rules')
   , should = require('should')
-  , step = require('step')
+  , Q = require('q')
+  , _ = require('lodash')
 
 describe('rules', function() {
   describe('callback', function() {
@@ -30,66 +31,50 @@ describe('rules', function() {
       })
     })
     it('should fail on illegal function names', function(done) {
-      step(
-        function() {
-          var self = this
-          ['@onclick', ''].forEach(function(name) {
-            var p = self.parallel()
-            fn([name], function(err, vals) {
-              err.should.not.eql(null)
-              p()
-            })
+      var parallel = []
+
+      ;['@onclick', ''].forEach(function(name) {
+        parallel.push(Q.nfcall(fn, [name])
+          .then(function() {
+            throw Error("Expected error");
           })
-        }
-      , function() {
-          done()
-        }
-      )
+          .catch(function() {}))
+      })
+
+      Q.all(parallel).spread(done).fail(done).done()
     })
     it('should accept legal function names', function(done) {
-      step(
-        function() {
-          var self = this
-          ;['zonclick', '$$', 'a9879385472945_234aASDFasdf'].forEach(function(name) {
-            var p = self.parallel()
-            fn([name], function(err, vals) {
-              should.not.exist(err)
-              vals.should.eql([name])
-              p()
-            })
-          })
-        }
-      , function() {
-          done()
-        }
-      )
+      var parallel = []
+
+      ;['zonclick', '$$', 'a9879385472945_234aASDFasdf'].forEach(function(name) {
+        parallel.push(
+          Q.nfcall(fn, [name])
+            .then(function(vals) {
+              vals.should.eql(name)
+            }))
+      })
+
+      Q.all(parallel).spread(done).fail(done).done();
     })
   })
   describe('number', function() {
     var fn = rules.number('number')
     it('should fail on non-numbers', function(done) {
-      step(
-        function() {
-          var self = this
-          'break 1a a1 1o1 - .4 10.'.split(' ').forEach(function(val) {
-            var p = self.parallel()
-            fn([val], function(err, vals) {
-              err.should.not.eql(null)
-              p()
-            })
-          })
-          ['', null, undefined].forEach(function(val) {
-            var p = self.parallel()
-            fn([val], function(err, vals) {
-              err.should.not.eql(null)
-              p()
-            })
-          })
-        }
-      , function() {
-          done()
-        }
-      )
+      var parallel = []
+
+      'break 1a a1 1o1 - .4 10.'.split(' ').forEach(function(val) {
+        parallel.push(Q.nfcall(fn, [val])
+          .then(function() { throw new Error('Expected failure') })
+          .fail(_.noop))
+      })
+
+      ;['', null, undefined].forEach(function(val) {
+        parallel.push(Q.nfcall(fn, [val])
+          .then(function() { throw new Error('Expected failure') })
+          .fail(_.noop))
+      })
+
+      Q.all(parallel).spread(done).fail(done).done();
     })
     it('should convert legal strings to numbers', function(done) {
       fn(['1', '12', '-234', '-24.234', '0.4'], function(err, vals) {
@@ -111,42 +96,29 @@ describe('rules', function() {
       var d = new Date()
         , str_ms = Number(d).toString()
         , str_s = (Number(d)/1000).toString()
+        , parallel = []
 
-      step(
-        function() {
-          var self = this
-          ;[str_ms, str_s].forEach(function(val) {
-            var p = self.parallel()
-            fn([val], function(err, vals) {
-              should.not.exist(err)
+      ;[str_ms, str_s].forEach(function(val) {
+        parallel.push(
+          Q.nfcall(fn, [val])
+            .then(function(vals) {
               vals.should.eql([d])
-              p()
-            })
-          })
-        }
-      , function() {
-          done()
-        }
-      )
+            }))
+      })
+
+      Q.all(parallel).spread(done).fail(done).done();
     })
   })
   describe('boolean', function() {
     var fn = rules['boolean']('boolean')
     it("should convert '1' '' and 'true' to true", function(done) {
-      step(
-        function() {
-          var self = this
-          ;['1', '', 'true'].forEach(function(val) {
-            var p = self.parallel()
-            fn([val], function(err, val) {
-              should.not.exist(err)
-              val.should.eql(true)
-              p()
-            })
-          })
-        }
-      , function() { done() }
-      )
+      var parallel = []
+      ;['1', '', 'true'].forEach(function(val) {
+        parallel.push(Q.nfcall(fn, [val]).then(function(val) {
+          val.should.eql(true)
+        }))
+      })
+      Q.all(parallel).spread(done).fail(done).done();
     })
     it("should only accept one value", function(done) {
       fn(['1', '1'], function(err) {
@@ -155,39 +127,25 @@ describe('rules', function() {
       })
     })
     it("should convert other values to false", function(done) {
-      step(
-        function() {
-          var self = this
-          ;['2', 'truer'].forEach(function(val) {
-            var p = self.parallel()
-            fn(val, function(err, val) {
-              should.not.exist(err)
-              val.should.eql(false)
-              p()
-            })
-          })
-        }
-      , function() { done() }
-      )
+      var parallel = []
+      ;['2', 'truer'].forEach(function(val) {
+        parallel.push(Q.nfcall(fn, [val]).then(function(val) {
+          val.should.eql(false)
+        }))
+      })
+      Q.all(parallel).spread(done).fail(done).done();
     })
   })
   describe('regex', function() {
     var fn = rules.regex('regex', 'a+')
     it("should accept matching params", function(done) {
-      step(
-        function() {
-          var self = this
-          ;['a', 'aa', 'aaa'].forEach(function(val) {
-            var p = self.parallel()
-            fn([val], function(err, vals) {
-              should.not.exist(err)
-              vals.should.eql([val])
-              p()
-            })
-          })
-        }
-      , function() { done() }
-      )
+      var parallel = []
+      ;['a', 'aa', 'aaa'].forEach(function(val) {
+        parallel.push(Q.nfcall(fn, [val]).then(function(vals) {
+          vals.should.eql([val])
+        }))
+      })
+      Q.all(parallel).spread(done).fail(done).done();
     })
     it("should fail on non-matching params", function(done) {
       fn(['a', 'b', 'aa'], function(err) {
@@ -242,20 +200,15 @@ describe('rules', function() {
   describe('max', function() {
     it("should accept up to max params", function(done) {
       var fn = rules.max('max', 3)
-      step(
-        function() {
-          var self = this
-          [[1,2,3], [1,2], [1], []].forEach(function(input) {
-            var p = self.parallel()
-            fn(input, function(err, vals) {
-              should.not.exist(err)
-              vals.should.eql(input)
-              p()
-            })
-          })
-        }
-      , function() {done()}
-      )
+        , parallel = []
+
+      ;[[1,2,3], [1,2], [1], []].forEach(function(input) {
+        parallel.push(Q.nfcall(fn, input).then(function(vals) {
+          vals.should.eql(input)
+          return null
+        }))
+      })
+      Q.all(parallel).spread(done).fail(done).done();
     })
     it("should fail if param is specified more then max times", function(done) {
       var fn = rules.max('max', 3)

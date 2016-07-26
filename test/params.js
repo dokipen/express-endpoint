@@ -1,6 +1,5 @@
 var params = require('../lib/middleware/params')
   , should = require('should')
-  , step = require('step')
   , libxmljs = require('libxmljs')
   , debug = require('debug')('express-endpoint:test')
   , rules = require('../lib/rules');

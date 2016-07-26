@@ -1,8 +1,6 @@
 var catalog = require('../lib/catalog.js')
   , should = require('should')
-  , step = require('step')
-  , libxmljs = require('libxmljs')
-  , Hash = require('hashish');
+  , libxmljs = require('libxmljs');
 
 describe('render', function() {
 
@@ -27,7 +25,6 @@ describe('render', function() {
       payload.endpoints.length.should.eql(2);
       payload.endpoints[0].should.eql({name: 'a'});
       payload.endpoints[1].should.eql({name: 'b'});
-      payload.should.have.property('Hash', Hash);
       payload.config.should.have.property('stylesheets');
       payload.config.should.have.property('view');
       payload.config.should.have.property('endpoints', mock.config.endpoints);

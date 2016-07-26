@@ -1,6 +1,5 @@
 var errorHandler = require('../lib/middleware/errorHandler')
   , should = require('should')
-  , step = require('step')
   , libxmljs = require('libxmljs');
 
 describe('errorHandler', function() {

@@ -24,15 +24,13 @@
     "lib": "./lib"
   },
   "dependencies": {
-    "batbelt": "0.0.2",
-    "express": "3.0.3",
-    "hashish": "0.0.4",
-    "highlight": "0.2.3",
-    "jade": "0.27.7",
-    "json2xml": "0.0.1",
-    "lodash": "^4.14.0",
-    "step": "0.0.5",
-    "urlparse.js": "0.0.7"
+    "express": "*",
+    "highlight": "*",
+    "jade": "*",
+    "json2xml": "*",
+    "lodash": "*",
+    "q": "*",
+    "urlparse.js": "*"
   },
   "devDependencies": {
     "mocha": "2.5.3",

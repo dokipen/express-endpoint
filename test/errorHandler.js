@@ -50,7 +50,6 @@ describe('errorHandler', function() {
         obj.config.should.have.property('view');
         obj.config.rules.should.eql({});
         obj.endpoints.should.eql([{}]);
-        obj.Hash.should.not.eql(null);
       }
       obj.html()
 

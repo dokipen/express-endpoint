@@ -1,6 +1,7 @@
 var rules = require('../lib/rules')
   , should = require('should')
-  , Q = require('q')
+  , Promise = require('bluebird')
+  , debug = require('debug')("express-endpoint:tests:rules")
   , _ = require('lodash')
 
 describe('rules', function() {
@@ -34,27 +35,26 @@ describe('rules', function() {
       var parallel = []
 
       ;['@onclick', ''].forEach(function(name) {
-        parallel.push(Q.nfcall(fn, [name])
+        parallel.push(Promise.promisify(fn)([name])
           .then(function() {
             throw Error("Expected error");
           })
           .catch(function() {}))
       })
-
-      Q.all(parallel).spread(done).fail(done).done()
+      Promise.all(parallel).spread(done).catch(done).done()
     })
     it('should accept legal function names', function(done) {
       var parallel = []
 
       ;['zonclick', '$$', 'a9879385472945_234aASDFasdf'].forEach(function(name) {
         parallel.push(
-          Q.nfcall(fn, [name])
+          Promise.promisify(fn)([name])
             .then(function(vals) {
               vals.should.eql(name)
             }))
       })
 
-      Q.all(parallel).spread(done).fail(done).done();
+      Promise.all(parallel).spread(done).catch(done).done();
     })
   })
   describe('number', function() {
@@ -63,18 +63,18 @@ describe('rules', function() {
       var parallel = []
 
       'break 1a a1 1o1 - .4 10.'.split(' ').forEach(function(val) {
-        parallel.push(Q.nfcall(fn, [val])
+        parallel.push(Promise.promisify(fn)([val])
           .then(function() { throw new Error('Expected failure') })
-          .fail(_.noop))
+          .catch(_.noop))
       })
 
       ;['', null, undefined].forEach(function(val) {
-        parallel.push(Q.nfcall(fn, [val])
+        parallel.push(Promise.promisify(fn)([val])
           .then(function() { throw new Error('Expected failure') })
-          .fail(_.noop))
+          .catch(_.noop))
       })
 
-      Q.all(parallel).spread(done).fail(done).done();
+      Promise.all(parallel).spread(done).catch(done).done();
     })
     it('should convert legal strings to numbers', function(done) {
       fn(['1', '12', '-234', '-24.234', '0.4'], function(err, vals) {
@@ -100,13 +100,13 @@ describe('rules', function() {
 
       ;[str_ms, str_s].forEach(function(val) {
         parallel.push(
-          Q.nfcall(fn, [val])
+          Promise.promisify(fn)([val])
             .then(function(vals) {
               vals.should.eql([d])
             }))
       })
 
-      Q.all(parallel).spread(done).fail(done).done();
+      Promise.all(parallel).spread(done).catch(done).done();
     })
   })
   describe('boolean', function() {
@@ -114,11 +114,11 @@ describe('rules', function() {
     it("should convert '1' '' and 'true' to true", function(done) {
       var parallel = []
       ;['1', '', 'true'].forEach(function(val) {
-        parallel.push(Q.nfcall(fn, [val]).then(function(val) {
+        parallel.push(Promise.promisify(fn)([val]).then(function(val) {
           val.should.eql(true)
         }))
       })
-      Q.all(parallel).spread(done).fail(done).done();
+      Promise.all(parallel).spread(done).catch(done).done();
     })
     it("should only accept one value", function(done) {
       fn(['1', '1'], function(err) {
@@ -129,11 +129,11 @@ describe('rules', function() {
     it("should convert other values to false", function(done) {
       var parallel = []
       ;['2', 'truer'].forEach(function(val) {
-        parallel.push(Q.nfcall(fn, [val]).then(function(val) {
+        parallel.push(Promise.promisify(fn)([val]).then(function(val) {
           val.should.eql(false)
         }))
       })
-      Q.all(parallel).spread(done).fail(done).done();
+      Promise.all(parallel).spread(done).catch(done).done();
     })
   })
   describe('regex', function() {
@@ -141,11 +141,11 @@ describe('rules', function() {
     it("should accept matching params", function(done) {
       var parallel = []
       ;['a', 'aa', 'aaa'].forEach(function(val) {
-        parallel.push(Q.nfcall(fn, [val]).then(function(vals) {
+        parallel.push(Promise.promisify(fn)([val]).then(function(vals) {
           vals.should.eql([val])
         }))
       })
-      Q.all(parallel).spread(done).fail(done).done();
+      Promise.all(parallel).spread(done).catch(done).done();
     })
     it("should fail on non-matching params", function(done) {
       fn(['a', 'b', 'aa'], function(err) {
@@ -203,12 +203,12 @@ describe('rules', function() {
         , parallel = []
 
       ;[[1,2,3], [1,2], [1], []].forEach(function(input) {
-        parallel.push(Q.nfcall(fn, input).then(function(vals) {
+        parallel.push(Promise.promisify(fn)(input).then(function(vals) {
           vals.should.eql(input)
           return null
         }))
       })
-      Q.all(parallel).spread(done).fail(done).done();
+      Promise.all(parallel).spread(done).catch(done).done();
     })
     it("should fail if param is specified more then max times", function(done) {
       var fn = rules.max('max', 3)

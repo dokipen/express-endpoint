@@ -1,10 +1,10 @@
 html
   head
     each css in config.stylesheets
-        link(rel="stylesheet"
-             href=css
-             type="text/css"
-             media="screen")
+      link(rel="stylesheet"
+           href=css
+           type="text/css"
+           media="screen")
     script(src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js", type="text/javascript")
     script(src="http://cloud.github.com/downloads/medialize/URI.js/URI.min.js", type="text/javascript")
     script(src="/endpoint/js/script.js", type="text/javascript")
@@ -16,22 +16,19 @@ html
 
     div#body
       div.errors
-        - if ("undefined" != typeof errors && errors.length > 0) {
+        if errors && errors.length > 0
           div.error
-            - errors.forEach(function(error) {
+            each error in errors
               div
-                - if (error.parameterName) {
-                    p Error on paramater [#{error.parameterName}]: #{error.message}
-                - } else {
-                    p An application error occurred: #{error.message}
-                    pre #{error.stack}
-                - }
-            - })
-        - }
+                if error.parameterName
+                  p Error on paramater [#{error.parameterName}]: #{error.message}
+                else
+                  p An application error occurred: #{error.message}
+                  pre #{error.stack}
       div.doc
         ul.endpoints
-          - endpoints.forEach(function(endpoint) {
-            - if (endpoint) {
+          each endpoint in endpoints
+            if endpoint
               div.endpoint
                 div.section.path
                   div.section_title
@@ -50,13 +47,12 @@ html
                     p Parameters
                   div.section_text
                     dl.params
-                      - Hash(endpoint.parameters).forEach(function(parameter, name) {
-                      -   var classes = parameter.rules.map(function(rule) {return rule.split('(')[0]}).join(" ");
+                      each parameter,name in endpoint.parameters
+                        - var classes = parameter.rules.map(function(rule) {return rule.split('(')[0]}).join(" ");
                         dt(class=classes) #{parameter.name}
                         dd
                           input(name=parameter.name, class=classes)
                           =parameter.description
-                      - })
 
                     input.tryItButton(type="button", value="Try It")
                     br
@@ -71,17 +67,13 @@ html
                         | ?
                         ul.params
                           - var i = 0
-                          - var query = Hash(endpoint.exampleUrl.query)
+                          - var query = endpoint.exampleUrl.query
                           - var length = query.size
-                          - query.forEach(function(value, name) {
-                          -   i++
-                          li.param
-                            span.name #{name}
-                            | =
-                            span.value #{value}
-                            - if (length > i) {
-                              | &amp;
-                            - }
-                          - })
-            - }
-          - })
+                          each value, name in query
+                            - i++
+                            li.param
+                              span.name #{name}
+                              | =
+                              span.value #{value}
+                              if length > i
+                                | &amp;

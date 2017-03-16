@@ -68,12 +68,13 @@ html
                         ul.params
                           - var i = 0
                           - var query = endpoint.exampleUrl.query
-                          - var length = query.size
-                          each value, name in query
-                            - i++
-                            li.param
-                              span.name #{name}
-                              | =
-                              span.value #{value}
-                              if length > i
-                                | &amp;
+                          if query && query.size > 0
+                            - var length = query.size
+                            each value, name in query
+                              - i++
+                              li.param
+                                span.name #{name}
+                                | =
+                                span.value #{value}
+                                if length > i
+                                  | &amp;

@@ -32,7 +32,8 @@
     "bluebird": "^3.4.6",
     "morgan": "^1.7.0",
     "urlparse.js": "^0.0.7",
-    "errorhandler": "^1.4.3"
+    "errorhandler": "^1.4.3",
+    "debug": "*"
   },
   "devDependencies": {
     "mocha": "^3.0.2",
